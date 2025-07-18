@@ -6,7 +6,7 @@ POSTGRES_CONFIG = {
     'dbname': 'rvs_dbase',
     'user': 'postgres',
     'password': 'cod34food',
-    'host': '192.168.254.106',
+    'host': '192.168.254.108',
     'port': '5432'
 }
 
