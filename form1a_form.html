@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birth Certification Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    @page {
+      size: A4;
+      margin: 18mm 15mm 18mm 18mm;
+    }
+
+    body {
+      font-family: "Arial", sans-serif;
+      font-size: 12pt;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      width: 210mm;
+      height: 297mm;
+      box-sizing: border-box;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 175mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2mm;
+    }
+    .header-logo {
+      width: -100px;
+      text-align: center;
+    }
+    .header-logo img {
+      height: 90px; /* Adjust as needed */
+      margin: 0;
+    }
+    .header-center {
+      flex: 1;
+      text-align: center;
+      font-size: 10pt;
+    }
+    .header-center h3, .header-center h2, .header-center h1 {
+      margin: 0;
+      font-size: 12pt;
+      font-weight: normal;
+    }
+    .header-center .office {
+      font-weight: bold;
+      font-size: 13pt;
+      margin-top: 2px;
+      margin-bottom: 2px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      font-family: 'Arial Black', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    #city {
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .header-formno {
+      font-size: 8pt;
+      text-align: left;
+      width: 60mm;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .header-formno span {
+      display: block;
+    }
+    .header-right {
+      width: 60mm;
+      text-align: right;
+    }
+    hr {
+      height: 2px;
+      border: none;
+      background-color: #000;
+      margin: 2px 0 6px 0;
+    }
+
+    .date-block {
+      text-align: right;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+    .date-inner {
+      display: inline-block;
+      text-align: center;
+    }
+    .date-underline {
+      border-bottom: 1px solid #000;
+      width: 80mm;
+      display: inline-block;
+      height: 1.2em;
+      margin-bottom: 2px;
+    }
+    .date-label {
+      font-size: 10pt;
+      margin-top: 0;
+    }
+
+    .to-whom {
+      margin-bottom: 20px;
+    }
+    .tabbed {
+      text-indent: 3em;
+      margin-top: 0;
+      margin-bottom: 0.5em;
+    }
+
+    .register-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2mm;
+      margin-left: 3em;
+    }
+    .register-label {
+      min-width: 60mm;
+      font-size: 12pt;
+    }
+    .register-colon {
+      min-width: 6mm;
+      text-align: center;
+    }
+    .register-underline {
+      border-bottom: 1px solid #000;
+      width: 80mm;
+      display: inline-block;
+      height: 1.2em;
+      vertical-align: bottom;
+    }
+    .remarks {
+      margin-top: -1mm;
+      height: 32mm;
+      padding: 2mm 2mm;
+      font-size: 12pt;
+      box-sizing: border-box;
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 18mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .footer-left {
+      width: 60mm;
+      font-size: 12pt;
+    }
+    .footer-right {
+      text-align: right;
+      font-size: 12pt;
+      font-weight: bold;
+    }
+    .footer-details {
+      margin-top: 8mm;
+      display: flex;
+      gap: 18mm;
+      font-size: 11pt;
+    }
+    .footer-details-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2mm;
+    }
+    .footer-details-label {
+      min-width: 24mm;
+      display: inline-block;
+    }
+    .footer-details-underline {
+      border-bottom: 1px solid #000;
+      width: 28mm;
+      display: inline-block;
+      height: 1.2em;
+      margin-left: 2mm;
+    }
+    .note {
+      font-size: 10pt;
+      font-style: italic;
+      text-align: center;
+      /* margin-top: 10mm; */
+    }
+    .contact {
+      font-size: 10pt;
+      text-align: center;
+      margin-top: 2mm;
+    }
+    @media print {
+      hr {
+        border: 1.5px solid #000 !important;
+        height: 0 !important;
+        background: none !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="header-formno">
+      <span>LCR Form No. 1A</span>
+      <span>(BIRTH - Available)</span>
+    </div>
+    <div class="header-row">
+      <div class="header-logo">
+        <img src="city-logo.png" alt="Left Logo">
+      </div>
+      <div class="header-center">
+        <h3>Republic of the Philippines</h3>
+        <h3>Province of Southern Leyte</h3>
+        <h3 id="city">CITY OF MAASIN</h3>
+        <div class="office">OFFICE OF THE CITY CIVIL REGISTRAR</div>
+      </div>
+      <div class="header-logo">
+        <img src="occr-logo.png" alt="Right Logo">
+      </div>
+    </div>
+    <hr />
+    <hr />
+
+    <div class="date-block">
+      <div class="date-inner">
+        <span class="date-underline"></span><br>
+        <span class="date-label">DATE</span>
+      </div>
+    </div>
+
+    <p class="to-whom"><strong>TO WHOM IT MAY CONCERN:</strong></p>
+    <p class="tabbed" style="line-height: 1.7rem;">
+      WE CERTIFY that, among others, the following facts of Birth appearing in our Register of Births on Page <span class="register-underline" style="width: 28mm;"></span> of Book No. <span class="register-underline" style="width: 28mm;"></span>
+    </p>
+
+    <div class="register-row" style="margin-top: 20px;"><span class="register-label">LCR Registry Number</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Date of Registration</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label"><strong>NAME OF CHILD</strong></span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Sex</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Date of Birth</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Place of Birth</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Name of Mother</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Nationality</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Name of Father</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Nationality</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Date of Marriage of Parents</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+    <div class="register-row"><span class="register-label">Place of Marriage of Parents</span><span class="register-colon">:</span><span class="register-underline"></span></div>
+
+    <p class="tabbed" style="margin-top: 6mm; line-height: 1.7rem;">
+      <em>THIS CERTIFICATION</em> is issued to <span class="register-underline" style="width: 60mm;"></span> upon his/her request.
+    </p>
+
+    <div class="remarks">
+      <strong>REMARKS:</strong>
+    </div>
+
+    <div class="footer" style="flex-direction: column; align-items: stretch;">
+      <div class="footer-main-row" style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div class="footer-left" style="white-space: nowrap;">
+          VERIFIED BY : <span class="register-underline" style="width: 40mm;"></span>
+        </div>
+        <div class="footer-right" style="text-align: center;">
+          <u>JENNY F. ANG</u><br>
+          <span style="font-weight: normal;">City Civil Registrar</span>
+        </div>
+      </div>
+      <div class="footer-details" style="display: flex; align-items: flex-end; justify-content: space-between;">
+        <div class="footer-details-col">
+          <span><span class="footer-details-label">Amount Paid</span>: <span class="footer-details-underline"></span></span>
+          <span><span class="footer-details-label">O.R. Number</span>: <span class="footer-details-underline"></span></span>
+          <span><span class="footer-details-label" style="margin-bottom: 5mm;">Date Paid</span>: <span class="footer-details-underline"></span></span>
+        </div>
+        <div style="text-align: center; margin-left: 24px; display: none;">
+          <span style="font-size: 10pt; font-style: italic;">FOR AND IN THE ABSENCE OF THE CCR</span><br><br>
+          <span style="display: inline-block; border-bottom: 1px solid #000; width: 60mm; height: 1.2em;"></span><br>
+          <span style="display: inline-block; border-bottom: 1px solid #000; width: 60mm; height: 1.2em;"></span><br>
+          <span style="display: inline-block; border-bottom: 1px solid #000; width: 60mm; height: 1.2em; margin-bottom: 5mm;"></span>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <hr />
+    <div class="note">
+      NOTE: THIS CERTIFICATION is not valid if it has mark or erasure or alteration of any entry.
+    </div>
+    <div class="contact">
+      Maasin City Hall, Tunga-tunga, Maasin City, Southern Leyte, Philippines<br>
+      Email Add: crcmaasincity@gmail.com &nbsp;&nbsp;&nbsp; Telephone No. 053-570-0676
+    </div>
+  </div>
+</body>
+</html>
+
