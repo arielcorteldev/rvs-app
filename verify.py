@@ -47,10 +47,8 @@ class VerifyWindowBase(QMainWindow):
 
         # Set styles
         for button in [
-            self.ui.search_button, self.ui.create_form,
-            self.ui.docstamp1, self.ui.no_record,
-            self.ui.destroyed, self.ui.docstamp2,
-            self.ui.auto_form
+            self.ui.search_button, self.ui.create_form, self.ui.no_record,
+            self.ui.destroyed, self.ui.auto_form
         ]:
             button.setStyleSheet(search_button_style)
         
@@ -138,20 +136,16 @@ class VerifyWindowBase(QMainWindow):
         # Set tooltips
         self.ui.auto_form.setToolTip("Auto-generate Form")
         self.ui.create_form.setToolTip("Create Form")
-        self.ui.docstamp1.setToolTip("Doc Stamp for Form")
         self.ui.no_record.setToolTip("Create No Record Form")
         self.ui.destroyed.setToolTip("Create Record Destroyed Form")
-        self.ui.docstamp2.setToolTip("Doc Stamp for No Record and Destroyed Form")
         
         # Connect buttons
         self.ui.auto_form.clicked.connect(self.open_auto_form)
         self.ui.search_button.clicked.connect(self.search_pdfs)
-        self.ui.docstamp1.clicked.connect(lambda: self.open_file(r'forms\DOC STAMP FOR 1A 2A 3A.pdf'))
         self.ui.create_form.clicked.connect(self.open_form_file)
         self.ui.no_record.clicked.connect(self.open_no_record)
         self.ui.destroyed.clicked.connect(self.open_destroyed_record)
-        self.ui.docstamp2.clicked.connect(lambda: self.open_file(r'forms\DOC STAMP FOR DESTROYED AND NO RECORD.pdf'))
-        
+
         # Setup combo box
         self.ui.search_by_comboBox.addItems(["Name", "Date", "Reg No."])
         

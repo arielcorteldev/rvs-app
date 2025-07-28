@@ -87,13 +87,13 @@ class Ui_SearchDeathWindow(object):
 
         self.verticalLayout.addWidget(self.create_form)
 
-        self.docstamp1 = QPushButton(self.centralwidget)
-        self.docstamp1.setObjectName(u"docstamp1")
-        icon3 = QIcon()
-        icon3.addFile(u"icons/stamp.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.docstamp1.setIcon(icon3)
+        # self.docstamp1 = QPushButton(self.centralwidget)
+        # self.docstamp1.setObjectName(u"docstamp1")
+        # icon3 = QIcon()
+        # icon3.addFile(u"icons/stamp.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        # self.docstamp1.setIcon(icon3)
 
-        self.verticalLayout.addWidget(self.docstamp1)
+        # self.verticalLayout.addWidget(self.docstamp1)
 
         self.no_record = QPushButton(self.centralwidget)
         self.no_record.setObjectName(u"no_record")
@@ -111,13 +111,13 @@ class Ui_SearchDeathWindow(object):
 
         self.verticalLayout.addWidget(self.destroyed)
 
-        self.docstamp2 = QPushButton(self.centralwidget)
-        self.docstamp2.setObjectName(u"docstamp2")
-        icon6 = QIcon()
-        icon6.addFile(u"icons/stamp2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.docstamp2.setIcon(icon6)
+        # self.docstamp2 = QPushButton(self.centralwidget)
+        # self.docstamp2.setObjectName(u"docstamp2")
+        # icon6 = QIcon()
+        # icon6.addFile(u"icons/stamp2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        # self.docstamp2.setIcon(icon6)
 
-        self.verticalLayout.addWidget(self.docstamp2)
+        # self.verticalLayout.addWidget(self.docstamp2)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -173,10 +173,10 @@ class Ui_SearchDeathWindow(object):
         self.search_textEdit.setPlaceholderText("")
         self.search_button.setText("")
         self.create_form.setText("")
-        self.docstamp1.setText("")
+        # self.docstamp1.setText("")
         self.no_record.setText("")
         self.destroyed.setText("")
-        self.docstamp2.setText("")
+        # self.docstamp2.setText("")
         self.status_label.setText("")
         self.regyear_textEdit.setText("")
         self.regyear_textEdit.setPlaceholderText(QCoreApplication.translate("SearchDeathWindow", u"Enter Year of Registration", None))
