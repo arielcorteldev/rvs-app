@@ -16,7 +16,6 @@ from db_config import POSTGRES_CONFIG
 
 from stylesheets import search_button_style, everify_button_style, button_style, message_box_style
 
-
 # New Custom Form Preview Window
 class FormPreviewWindow(QMainWindow):
     def __init__(self, pdf_path, record_data, form_type, connection=None, username=None, parent=None):
