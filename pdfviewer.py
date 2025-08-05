@@ -89,6 +89,8 @@ class PDFViewer(QScrollArea):
             label.setAlignment(Qt.AlignCenter)
             self.pdf_layout.addWidget(label)
 
+        QTimer.singleShot(0, lambda: self.verticalScrollBar().setValue(0))
+
     def clear_pdf(self):
         """Clears the current PDF view."""
         while self.pdf_layout.count():

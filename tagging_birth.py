@@ -61,6 +61,9 @@ class BirthTaggingWindow(QWidget):
 
         self.default_directory = r"\\server\MCR\LIVE BIRTH"
         self.selected_pdf = None
+        self.last_page_no = None
+        self.last_book_no = None
+        self.last_reg_date = None
 
         self.init_ui()
     
@@ -157,7 +160,7 @@ class BirthTaggingWindow(QWidget):
         self.date_of_birth_input = QDateEdit()
         self.date_of_birth_input.setCalendarPopup(True)
         self.date_of_birth_input.setDate(QDate.currentDate())
-        self.date_of_birth_input.setFixedWidth(220)
+        self.date_of_birth_input.setFixedWidth(150)
         self.date_of_birth_input.setStyleSheet(date_picker_style)
         dob_container.addWidget(QLabel("Date of Birth:"))
         dob_container.addWidget(self.date_of_birth_input)
@@ -177,6 +180,15 @@ class BirthTaggingWindow(QWidget):
         pob_container.addWidget(QLabel("Place of Birth:"))
         pob_container.addWidget(self.place_of_birth_combo)
         birth_info_layout.addLayout(pob_container)
+
+        twin_container = QVBoxLayout()
+        self.twin_combo = QComboBox()
+        self.twin_combo.addItems(["NO", "YES"])
+        self.twin_combo.setFixedWidth(100)
+        self.twin_combo.setStyleSheet(combo_box_style)
+        twin_container.addWidget(QLabel("Twin:"))
+        twin_container.addWidget(self.twin_combo)
+        birth_info_layout.addLayout(twin_container)
         form_layout.addLayout(birth_info_layout)
 
         # Name of Mother and Nationality
@@ -259,7 +271,8 @@ class BirthTaggingWindow(QWidget):
         self.marriage_place_input.addItems([
             "NOT MARRIED",
             "FORGOTTEN",
-            "DON'T KNOW"
+            "DON'T KNOW",
+            "NOT APPLICABLE"
         ])
         self.marriage_place_input.setFixedWidth(450)
         self.marriage_place_input.setStyleSheet(combo_box_style)
@@ -293,6 +306,8 @@ class BirthTaggingWindow(QWidget):
             "NURSE",
             "HILOT",
             "OTHERS",
+            "NOT APPLICABLE",
+            "DON'T KNOW"
         ])
         self.attendant_combo.setFixedWidth(220)
         self.attendant_combo.setStyleSheet(combo_box_style)
@@ -308,15 +323,6 @@ class BirthTaggingWindow(QWidget):
         late_reg_container.addWidget(QLabel("Late Registration:"))
         late_reg_container.addWidget(self.late_reg_combo)
         final_info_layout.addLayout(late_reg_container)
-
-        twin_container = QVBoxLayout()
-        self.twin_combo = QComboBox()
-        self.twin_combo.addItems(["NO", "YES"])
-        self.twin_combo.setFixedWidth(150)
-        self.twin_combo.setStyleSheet(combo_box_style)
-        twin_container.addWidget(QLabel("Twin:"))
-        twin_container.addWidget(self.twin_combo)
-        final_info_layout.addLayout(twin_container)
 
         reg_date_container = QVBoxLayout()
         self.date_of_reg_input = QDateEdit()
@@ -537,8 +543,12 @@ class BirthTaggingWindow(QWidget):
         try:
             self.selected_pdf = item.data(Qt.UserRole)
             if self.selected_pdf:
+                self.last_page_no = self.page_no_input.text()
+                self.last_book_no = self.book_no_input.text()
+                self.last_reg_date = self.date_of_reg_input.date().toString("yyyy-MM-dd")
                 self.pdf_viewer.load_pdf(self.selected_pdf)
                 self.load_existing_tags(self.selected_pdf)
+
                 AuditLogger.log_action(
                     conn,
                     self.current_user,
@@ -607,7 +617,9 @@ class BirthTaggingWindow(QWidget):
                 if parents_marriage_place:
                     self.marriage_place_input.setCurrentText(parents_marriage_place)
                 else:
+                    self.marriage_place_input.clearEditText()
                     self.marriage_place_input.setCurrentIndex(0)
+                    self.marriage_place_input.setEditText(self.marriage_place_input.itemText(0))
                 
                 if parents_marriage_date:
                     self.date_of_marriage_input.setDate(QDate.fromString(parents_marriage_date.strftime("%Y-%m-%d"), "yyyy-MM-dd"))
@@ -616,8 +628,8 @@ class BirthTaggingWindow(QWidget):
                     self.date_of_marriage_input.setEnabled(False)
             else:
                 # Clear all fields
-                self.page_no_input.clear()
-                self.book_no_input.clear()
+                self.page_no_input.setText(self.last_page_no)
+                self.book_no_input.setText(self.last_book_no)
                 self.reg_no_input.clear()
                 self.name_input.clear()
                 self.mother_name_input.clear()
@@ -631,7 +643,7 @@ class BirthTaggingWindow(QWidget):
                 self.late_reg_combo.setCurrentIndex(0)
                 self.twin_combo.setCurrentIndex(0)
                 
-                self.date_of_reg_input.setDate(QDate.currentDate())
+                self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
                 self.date_of_birth_input.setDate(QDate.currentDate())
                 self.date_of_marriage_input.setDate(QDate.currentDate())
                 self.date_of_marriage_input.setEnabled(False)
@@ -680,7 +692,7 @@ class BirthTaggingWindow(QWidget):
                 nationality_father = self.father_nationality_combo.currentText()
                 
                 # Handle marriage date based on marriage place
-                if self.marriage_place_input.currentText() in ["NOT MARRIED", "FORGOTTEN", "DON'T KNOW"]:
+                if self.marriage_place_input.currentText() in ["NOT MARRIED", "FORGOTTEN", "DON'T KNOW", "NOT APPLICABLE"]:
                     parents_marriage_date = None
                     parents_marriage_place = None
                 else:
@@ -914,7 +926,7 @@ class BirthTaggingWindow(QWidget):
 
     def handle_marriage_place_change(self, value):
         """Handle changes in marriage place combo box."""
-        null_triggers = ["NOT MARRIED", "FORGOTTEN", "DON'T KNOW"]
+        null_triggers = ["NOT MARRIED", "FORGOTTEN", "DON'T KNOW", "NOT APPLICABLE"]
 
         if value in null_triggers:
             # Set to null date and disable
@@ -928,8 +940,4 @@ class BirthTaggingWindow(QWidget):
                 self.date_of_marriage_input.setDate(QDate.currentDate())
 
 
-# if __name__ == "__main__":
-# 	app = QApplication([])
-# 	window = BirthTaggingWindow()
-# 	window.show()
-# 	app.exec()
+

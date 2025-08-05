@@ -61,6 +61,8 @@ class DeathTaggingWindow(QWidget):
 
         self.default_directory = r"\\server\MCR\DEATH"
         self.selected_pdf = None
+        self.last_page_no = None
+        self.last_book_no = None
 
         self.init_ui()
     
@@ -481,8 +483,12 @@ class DeathTaggingWindow(QWidget):
         try:
             self.selected_pdf = item.data(Qt.UserRole)
             if self.selected_pdf:
+                self.last_page_no = self.page_no_input.text()
+                self.last_book_no = self.book_no_input.text()
+                self.last_reg_date = self.date_of_reg_input.date().toString("yyyy-MM-dd")
                 self.pdf_viewer.load_pdf(self.selected_pdf)
                 self.load_existing_tags(self.selected_pdf)
+
                 AuditLogger.log_action(
                     conn,
                     self.current_user,
@@ -548,8 +554,8 @@ class DeathTaggingWindow(QWidget):
 
             else:
                 # Clear all fields
-                self.page_no_input.clear()
-                self.book_no_input.clear()
+                self.page_no_input.setText(self.last_page_no)
+                self.book_no_input.setText(self.last_book_no)
                 self.reg_no_input.clear()
                 self.name_input.clear()
                 self.age_input.clear()
@@ -562,7 +568,7 @@ class DeathTaggingWindow(QWidget):
                 self.corpse_disposal_combo.setCurrentIndex(0)
                 self.late_reg_combo.setCurrentIndex(0)
                 
-                self.date_of_reg_input.setDate(QDate.currentDate())
+                self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
                 self.date_of_death_input.setDate(QDate.currentDate())
         finally:
             if cursor:
