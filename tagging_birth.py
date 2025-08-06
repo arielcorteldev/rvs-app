@@ -599,8 +599,14 @@ class BirthTaggingWindow(QWidget):
                 self.mother_nationality_combo.setCurrentText(nationality_mother if nationality_mother else "")
                 self.father_nationality_combo.setCurrentText(nationality_father if nationality_father else "")
                 self.attendant_combo.setCurrentText(attendant if attendant else "")
-                self.late_reg_combo.setCurrentText("Yes" if late_registration else "No")
-                self.twin_combo.setCurrentText("Yes" if twin else "No")
+                # self.late_reg_combo.setCurrentText("Yes" if late_registration else "No")
+                # self.twin_combo.setCurrentText("Yes" if twin else "No")
+                # Force reset before setting
+                self.late_reg_combo.setCurrentIndex(-1)  # This clears the selection
+                self.late_reg_combo.setCurrentText("YES" if late_registration is True else "NO")
+
+                self.twin_combo.setCurrentIndex(-1)
+                self.twin_combo.setCurrentText("YES" if twin is True else "NO")
 
                 # Handle dates
                 if date_of_birth:
@@ -688,8 +694,8 @@ class BirthTaggingWindow(QWidget):
                 place_of_birth = self.place_of_birth_combo.currentText()
                 name_of_mother = self.mother_name_input.text()
                 nationality_mother = self.mother_nationality_combo.currentText()
-                name_of_father = self.father_name_input.text()
-                nationality_father = self.father_nationality_combo.currentText()
+                name_of_father = self.father_name_input.text() if self.father_name_input.text() != "" else None
+                nationality_father = self.father_nationality_combo.currentText() if self.father_name_input.text() != "" else None
                 
                 # Handle marriage date based on marriage place
                 if self.marriage_place_input.currentText() in ["NOT MARRIED", "FORGOTTEN", "DON'T KNOW", "NOT APPLICABLE"]:
@@ -700,8 +706,8 @@ class BirthTaggingWindow(QWidget):
                     parents_marriage_place = self.marriage_place_input.currentText()
 
                 attendant = self.attendant_combo.currentText()
-                late_registration = self.late_reg_combo.currentText() == "Yes"
-                twin = self.twin_combo.currentText() == "Yes"
+                late_registration = self.late_reg_combo.currentText().strip().lower() == "yes"
+                twin = self.twin_combo.currentText().strip().lower() == "yes"
 
                 cursor.execute("""
                     INSERT INTO birth_index (
