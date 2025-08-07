@@ -391,6 +391,7 @@ class BirthTaggingWindow(QWidget):
             }
         """)
 
+        self.pdf_list.currentItemChanged.connect(self.show_preview)
         main_layout.addWidget(self.pdf_list)
 
         # PDF Viewer Section
