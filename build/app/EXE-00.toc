@@ -92,7 +92,7 @@
  [],
  False,
  False,
- 1754543690,
+ 1755571405,
  [('runw.exe',
    'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
    'dev\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',

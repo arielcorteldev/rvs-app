@@ -235,7 +235,7 @@ class StatisticsWindow(QWidget):
                 "Late Registration": "late_registration",
                 "Twin": "twin",
                 # Death
-                "Age": "age",
+                "Age": "age_years",
                 "Civil Status": "civil_status",
                 "Nationality": "nationality",
                 "Place of Death": "place_of_death",
@@ -400,7 +400,7 @@ class StatisticsWindow(QWidget):
                 "Attendant": "attendant",
                 "Late Registration": "late_registration",
                 "Twin": "twin",
-                "Age": "age",
+                "Age": "age_years",
                 "Civil Status": "civil_status",
                 "Nationality": "nationality",
                 "Place of Death": "place_of_death",

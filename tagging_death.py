@@ -129,9 +129,9 @@ class DeathTaggingWindow(QWidget):
         reg_info_layout.addLayout(reg_no_container)
         form_layout.addLayout(reg_info_layout)
 
-        # Name and Sex and Agge
-        name_sex_age_layout = QHBoxLayout()
-        name_sex_age_layout.setSpacing(10)
+        # Name and Sex
+        name_sex_layout = QHBoxLayout()
+        name_sex_layout.setSpacing(10)
 
         name_container = QVBoxLayout()
         self.name_input = QLineEdit()
@@ -139,7 +139,7 @@ class DeathTaggingWindow(QWidget):
         self.name_input.setFixedWidth(400)
         name_container.addWidget(QLabel("Name:"))
         name_container.addWidget(self.name_input)
-        name_sex_age_layout.addLayout(name_container)
+        name_sex_layout.addLayout(name_container)
 
         sex_container = QVBoxLayout()
         self.sex_combo = QComboBox()
@@ -148,17 +148,55 @@ class DeathTaggingWindow(QWidget):
         self.sex_combo.setStyleSheet(combo_box_style)
         sex_container.addWidget(QLabel("Sex:"))
         sex_container.addWidget(self.sex_combo)
-        name_sex_age_layout.addLayout(sex_container)
+        name_sex_layout.addLayout(sex_container)
+
+        form_layout.addLayout(name_sex_layout)
+
+        # Age
+        age_layout = QHBoxLayout()
+        age_layout.setSpacing(10)
         
         age_container = QVBoxLayout()
         self.age_input = QLineEdit()
-        self.age_input.setPlaceholderText("Age")
+        self.age_input.setPlaceholderText("Age (Years)")
         self.age_input.setFixedWidth(70)
-        age_container.addWidget(QLabel("Age:"))
+        age_container.addWidget(QLabel("Age (Years):"))
         age_container.addWidget(self.age_input)
-        name_sex_age_layout.addLayout(age_container)
+        age_layout.addLayout(age_container)    
 
-        form_layout.addLayout(name_sex_age_layout)
+        age_months_container = QVBoxLayout()
+        self.age_months_input = QLineEdit()
+        self.age_months_input.setPlaceholderText("Months")
+        self.age_months_input.setFixedWidth(70)
+        age_months_container.addWidget(QLabel("Months:"))
+        age_months_container.addWidget(self.age_months_input)
+        age_layout.addLayout(age_months_container)
+
+        age_days_container = QVBoxLayout()
+        self.age_days_input = QLineEdit()
+        self.age_days_input.setPlaceholderText("Days")
+        self.age_days_input.setFixedWidth(70)
+        age_days_container.addWidget(QLabel("Days:"))
+        age_days_container.addWidget(self.age_days_input)
+        age_layout.addLayout(age_days_container)
+
+        age_hours_container = QVBoxLayout()
+        self.age_hours_input = QLineEdit()
+        self.age_hours_input.setPlaceholderText("Hours")
+        self.age_hours_input.setFixedWidth(70)
+        age_hours_container.addWidget(QLabel("Hours:"))
+        age_hours_container.addWidget(self.age_hours_input)
+        age_layout.addLayout(age_hours_container)
+
+        age_mins_container = QVBoxLayout()
+        self.age_mins_input = QLineEdit()
+        self.age_mins_input.setPlaceholderText("Minutes")
+        self.age_mins_input.setFixedWidth(70)
+        age_mins_container.addWidget(QLabel("Minutes:"))
+        age_mins_container.addWidget(self.age_mins_input)
+        age_layout.addLayout(age_mins_container)
+
+        form_layout.addLayout(age_layout)
 
         # Place of Death and Date of Death
         death_info_layout = QHBoxLayout()
@@ -514,7 +552,8 @@ class DeathTaggingWindow(QWidget):
             cursor.execute("""
                 SELECT 
                     name, date_of_death, sex, page_no, book_no, reg_no, 
-                    date_of_reg, age, civil_status, nationality,
+                    date_of_reg, age_years, age_months, age_days, age_hours, age_mins,
+                    civil_status, nationality,
                     place_of_death, cause_of_death,
                     corpse_disposal, late_registration
                 FROM death_index 
@@ -525,7 +564,8 @@ class DeathTaggingWindow(QWidget):
 
             if result:
                 (name, date_of_death, sex, page_no, book_no, reg_no, 
-                 date_of_reg, age, civil_status, nationality,
+                 date_of_reg, age_years, age_months, age_days, age_hours, age_mins,
+                 civil_status, nationality,
                  place_of_death, cause_of_death,
                  corpse_disposal, late_registration) = result
 
@@ -534,7 +574,11 @@ class DeathTaggingWindow(QWidget):
                 self.book_no_input.setText(str(book_no) if book_no else "")
                 self.reg_no_input.setText(reg_no if reg_no else "")
                 self.name_input.setText(name if name else "")
-                self.age_input.setText(str(age) if age else "")
+                self.age_input.setText(str(age_years) if age_years is not None else "")
+                self.age_months_input.setText(str(age_months) if age_months is not None else "")
+                self.age_days_input.setText(str(age_days) if age_days is not None else "")
+                self.age_hours_input.setText(str(age_hours) if age_hours is not None else "")
+                self.age_mins_input.setText(str(age_mins) if age_mins is not None else "")
                 self.cause_of_death_input.setText(cause_of_death if cause_of_death else "")
 
                 # Set QComboBox values
@@ -564,6 +608,10 @@ class DeathTaggingWindow(QWidget):
                 self.name_input.clear()
                 self.age_input.clear()
                 self.cause_of_death_input.clear()
+                self.age_months_input.clear()
+                self.age_days_input.clear()
+                self.age_hours_input.clear()
+                self.age_mins_input.clear()
                 
                 self.sex_combo.setCurrentIndex(0)
                 self.civil_status_combo.setCurrentIndex(0)
@@ -609,7 +657,14 @@ class DeathTaggingWindow(QWidget):
                 book_no = int(self.book_no_input.text()) if self.book_no_input.text() else None
                 reg_no = self.reg_no_input.text()
                 name = self.name_input.text()
-                age = self.age_input.text()
+                def parse_int(text):
+                    return int(text) if text and text.isdigit() else None
+
+                age_years = parse_int(self.age_input.text())
+                age_months = parse_int(self.age_months_input.text())
+                age_days = parse_int(self.age_days_input.text())
+                age_hours = parse_int(self.age_hours_input.text())
+                age_mins = parse_int(self.age_mins_input.text())
                 cause_of_death = self.cause_of_death_input.text()
                 date_of_death = self.date_of_death_input.date().toString("yyyy-MM-dd")
                 sex = self.sex_combo.currentText()
@@ -624,10 +679,11 @@ class DeathTaggingWindow(QWidget):
                 cursor.execute("""
                     INSERT INTO death_index (
                         file_path, name, date_of_death, sex, page_no, book_no, reg_no,
-                        date_of_reg, age, civil_status, nationality,
+                        date_of_reg, age_years, age_months, age_days, age_hours, age_mins,
+                        civil_status, nationality,
                         place_of_death, cause_of_death, corpse_disposal, late_registration
                     ) VALUES (
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                     )
                     ON CONFLICT(file_path) DO UPDATE SET
                         name = EXCLUDED.name,
@@ -637,7 +693,11 @@ class DeathTaggingWindow(QWidget):
                         book_no = EXCLUDED.book_no,
                         reg_no = EXCLUDED.reg_no,
                         date_of_reg = EXCLUDED.date_of_reg,
-                        age = EXCLUDED.age,
+                        age_years = EXCLUDED.age_years,
+                        age_months = EXCLUDED.age_months,
+                        age_days = EXCLUDED.age_days,
+                        age_hours = EXCLUDED.age_hours,
+                        age_mins = EXCLUDED.age_mins,
                         civil_status = EXCLUDED.civil_status,
                         nationality = EXCLUDED.nationality,
                         place_of_death = EXCLUDED.place_of_death,
@@ -646,7 +706,8 @@ class DeathTaggingWindow(QWidget):
                         late_registration = EXCLUDED.late_registration
                 """, (
                     self.selected_pdf, name, date_of_death, sex, page_no, book_no, reg_no,
-                    date_of_reg, age, civil_status, nationality,
+                    date_of_reg, age_years, age_months, age_days, age_hours, age_mins,
+                    civil_status, nationality,
                     place_of_death, cause_of_death, corpse_disposal, late_registration
                 ))
 
@@ -732,6 +793,10 @@ class DeathTaggingWindow(QWidget):
             self.reg_no_input.clear()
             self.name_input.clear()
             self.age_input.clear()
+            self.age_months_input.clear()
+            self.age_days_input.clear()
+            self.age_hours_input.clear()
+            self.age_mins_input.clear()
             self.cause_of_death_input.clear()
             
             self.sex_combo.setCurrentIndex(0)

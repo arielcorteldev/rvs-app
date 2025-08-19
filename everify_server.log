@@ -9860,3 +9860,45 @@ requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://w
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.254.108:5000
 [2025-08-19 10:38:43,916] INFO in _internal: [33mPress CTRL+C to quit[0m
+[2025-08-19 14:50:51,096] DEBUG in connectionpool: Starting new HTTPS connection (1): api.ipify.org:443
+[2025-08-19 14:50:51,587] DEBUG in connectionpool: https://api.ipify.org:443 "GET /?format=text HTTP/1.1" 200 15
+[2025-08-19 14:50:51,589] INFO in app: Server Public IP: 180.190.197.101
+[2025-08-19 14:50:52,466] DEBUG in __init__: matplotlib data path: C:\ayie\Coding Projects\LGU\RVS APP\RVS dev\.venv\Lib\site-packages\matplotlib\mpl-data
+[2025-08-19 14:50:52,480] DEBUG in __init__: CONFIGDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:50:52,482] DEBUG in __init__: interactive is False
+[2025-08-19 14:50:52,482] DEBUG in __init__: platform is win32
+[2025-08-19 14:50:52,564] DEBUG in __init__: CACHEDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:50:52,568] DEBUG in font_manager: Using fontManager instance from C:\Users\ThisPC\.matplotlib\fontlist-v390.json
+[2025-08-19 14:50:53,212] INFO in _internal: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.108:5000
+[2025-08-19 14:50:53,213] INFO in _internal: [33mPress CTRL+C to quit[0m
+[2025-08-19 14:53:34,841] DEBUG in connectionpool: Starting new HTTPS connection (1): api.ipify.org:443
+[2025-08-19 14:53:35,277] DEBUG in connectionpool: https://api.ipify.org:443 "GET /?format=text HTTP/1.1" 200 15
+[2025-08-19 14:53:35,278] INFO in app: Server Public IP: 180.190.197.101
+[2025-08-19 14:53:35,659] DEBUG in __init__: matplotlib data path: C:\ayie\Coding Projects\LGU\RVS APP\RVS dev\.venv\Lib\site-packages\matplotlib\mpl-data
+[2025-08-19 14:53:35,670] DEBUG in __init__: CONFIGDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:53:35,671] DEBUG in __init__: interactive is False
+[2025-08-19 14:53:35,671] DEBUG in __init__: platform is win32
+[2025-08-19 14:53:35,740] DEBUG in __init__: CACHEDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:53:35,743] DEBUG in font_manager: Using fontManager instance from C:\Users\ThisPC\.matplotlib\fontlist-v390.json
+[2025-08-19 14:53:36,218] INFO in _internal: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.108:5000
+[2025-08-19 14:53:36,218] INFO in _internal: [33mPress CTRL+C to quit[0m
+[2025-08-19 14:54:45,103] DEBUG in connectionpool: Starting new HTTPS connection (1): api.ipify.org:443
+[2025-08-19 14:54:45,804] DEBUG in connectionpool: https://api.ipify.org:443 "GET /?format=text HTTP/1.1" 200 15
+[2025-08-19 14:54:45,807] INFO in app: Server Public IP: 180.190.197.101
+[2025-08-19 14:54:46,174] DEBUG in __init__: matplotlib data path: C:\ayie\Coding Projects\LGU\RVS APP\RVS dev\.venv\Lib\site-packages\matplotlib\mpl-data
+[2025-08-19 14:54:46,183] DEBUG in __init__: CONFIGDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:54:46,184] DEBUG in __init__: interactive is False
+[2025-08-19 14:54:46,185] DEBUG in __init__: platform is win32
+[2025-08-19 14:54:46,246] DEBUG in __init__: CACHEDIR=C:\Users\ThisPC\.matplotlib
+[2025-08-19 14:54:46,249] DEBUG in font_manager: Using fontManager instance from C:\Users\ThisPC\.matplotlib\fontlist-v390.json
+[2025-08-19 14:54:46,699] INFO in _internal: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.254.108:5000
+[2025-08-19 14:54:46,700] INFO in _internal: [33mPress CTRL+C to quit[0m

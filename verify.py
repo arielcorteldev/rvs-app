@@ -317,7 +317,7 @@ class VerifyWindowBase(QMainWindow):
                 form_type = "Death"
                 cursor.execute("""
                     SELECT name, date_of_death, sex, page_no, book_no, reg_no,
-                           date_of_reg, age, civil_status, nationality, place_of_death,
+                           date_of_reg, age_years, civil_status, nationality, place_of_death,
                            cause_of_death
                     FROM death_index 
                     WHERE normalize_path(file_path) = %s
