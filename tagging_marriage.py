@@ -64,6 +64,8 @@ class MarriageTaggingWindow(QWidget):
         self.last_page_no = None
         self.last_book_no = None
         self.last_reg_date = None
+        self.last_place_of_marriage = None
+        self.last_date_of_marriage = None
 
         self.init_ui()
     
@@ -157,15 +159,6 @@ class MarriageTaggingWindow(QWidget):
         husband_cs_nat_layout = QHBoxLayout()
         husband_cs_nat_layout.setSpacing(10)
 
-        husband_cs_container = QVBoxLayout()
-        self.husband_civil_status_combo = QComboBox()
-        self.husband_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
-        self.husband_civil_status_combo.setFixedWidth(300)
-        self.husband_civil_status_combo.setStyleSheet(combo_box_style)
-        husband_cs_container.addWidget(QLabel("Civil Status:"))
-        husband_cs_container.addWidget(self.husband_civil_status_combo)
-        husband_cs_nat_layout.addLayout(husband_cs_container)
-
         husband_nat_container = QVBoxLayout()
         self.husband_nationality_combo = QComboBox()
         self.husband_nationality_combo.setEditable(True)
@@ -187,6 +180,15 @@ class MarriageTaggingWindow(QWidget):
         husband_nat_container.addWidget(QLabel("Nationality:"))
         husband_nat_container.addWidget(self.husband_nationality_combo)
         husband_cs_nat_layout.addLayout(husband_nat_container)
+
+        husband_cs_container = QVBoxLayout()
+        self.husband_civil_status_combo = QComboBox()
+        self.husband_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
+        self.husband_civil_status_combo.setFixedWidth(300)
+        self.husband_civil_status_combo.setStyleSheet(combo_box_style)
+        husband_cs_container.addWidget(QLabel("Civil Status:"))
+        husband_cs_container.addWidget(self.husband_civil_status_combo)
+        husband_cs_nat_layout.addLayout(husband_cs_container)
 
         form_layout.addLayout(husband_cs_nat_layout)
 
@@ -239,15 +241,6 @@ class MarriageTaggingWindow(QWidget):
         wife_cs_nat_layout = QHBoxLayout()
         wife_cs_nat_layout.setSpacing(10)
 
-        wife_cs_container = QVBoxLayout()
-        self.wife_civil_status_combo = QComboBox()
-        self.wife_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
-        self.wife_civil_status_combo.setFixedWidth(300)
-        self.wife_civil_status_combo.setStyleSheet(combo_box_style)
-        wife_cs_container.addWidget(QLabel("Civil Status:"))
-        wife_cs_container.addWidget(self.wife_civil_status_combo)
-        wife_cs_nat_layout.addLayout(wife_cs_container)
-
         wife_nat_container = QVBoxLayout()
         self.wife_nationality_combo = QComboBox()
         self.wife_nationality_combo.setEditable(True)
@@ -269,6 +262,15 @@ class MarriageTaggingWindow(QWidget):
         wife_nat_container.addWidget(QLabel("Nationality:"))
         wife_nat_container.addWidget(self.wife_nationality_combo)
         wife_cs_nat_layout.addLayout(wife_nat_container)
+
+        wife_cs_container = QVBoxLayout()
+        self.wife_civil_status_combo = QComboBox()
+        self.wife_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
+        self.wife_civil_status_combo.setFixedWidth(300)
+        self.wife_civil_status_combo.setStyleSheet(combo_box_style)
+        wife_cs_container.addWidget(QLabel("Civil Status:"))
+        wife_cs_container.addWidget(self.wife_civil_status_combo)
+        wife_cs_nat_layout.addLayout(wife_cs_container)
 
         form_layout.addLayout(wife_cs_nat_layout)
 
@@ -419,6 +421,7 @@ class MarriageTaggingWindow(QWidget):
             }
         """)
 
+        self.pdf_list.currentItemChanged.connect(self.show_preview)
         main_layout.addWidget(self.pdf_list)
 
         # PDF Viewer Section
@@ -574,6 +577,8 @@ class MarriageTaggingWindow(QWidget):
                 self.last_page_no = self.page_no_input.text()
                 self.last_book_no = self.book_no_input.text()
                 self.last_reg_date = self.date_of_reg_input.date().toString("yyyy-MM-dd")
+                self.last_place_of_marriage = self.place_of_marriage_combo.currentText()
+                self.last_date_of_marriage = self.date_of_marriage_input.date().toString("yyyy-MM-dd")
                 self.pdf_viewer.load_pdf(self.selected_pdf)
                 self.load_existing_tags(self.selected_pdf)
 
@@ -662,7 +667,7 @@ class MarriageTaggingWindow(QWidget):
                 self.wife_mother_name_input.clear()
                 self.wife_father_name_input.clear()
                 
-                self.place_of_marriage_combo.setCurrentIndex(0)
+                self.place_of_marriage_combo.setCurrentText(self.last_place_of_marriage)
                 self.husband_nationality_combo.setCurrentIndex(0)
                 self.wife_nationality_combo.setCurrentIndex(0)
                 self.husband_civil_status_combo.setCurrentIndex(0)
@@ -671,7 +676,7 @@ class MarriageTaggingWindow(QWidget):
                 self.late_reg_combo.setCurrentIndex(0)
                 
                 self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
-                self.date_of_marriage_input.setDate(QDate.currentDate())
+                self.date_of_marriage_input.setDate(QDate.fromString(self.last_date_of_marriage, "yyyy-MM-dd"))
         finally:
             if cursor:
                 cursor.close()

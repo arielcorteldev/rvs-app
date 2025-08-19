@@ -160,6 +160,37 @@ class DeathTaggingWindow(QWidget):
 
         form_layout.addLayout(name_sex_age_layout)
 
+        # Place of Death and Date of Death
+        death_info_layout = QHBoxLayout()
+        death_info_layout.setSpacing(10)
+
+        death_date_container = QVBoxLayout()
+        self.date_of_death_input = QDateEdit()
+        self.date_of_death_input.setCalendarPopup(True)
+        self.date_of_death_input.setDate(QDate.currentDate())
+        self.date_of_death_input.setFixedWidth(220)
+        self.date_of_death_input.setStyleSheet(date_picker_style)
+        death_date_container.addWidget(QLabel("Date of Death:"))
+        death_date_container.addWidget(self.date_of_death_input)
+        death_info_layout.addLayout(death_date_container)
+
+        death_place_container = QVBoxLayout()
+        self.death_place_input = QComboBox()
+        self.death_place_input.setEditable(True)
+        self.death_place_input.addItems([
+            "SALVACION OPPUS YÑIGUEZ MEMORIAL PROVINCIAL HOSPITAL",
+            "MAASIN MEDCITY HOSPITAL",
+            "LIVINGHOPE HOSPITAL, INC.",
+            "CM MATERNITY CLINIC",
+        ])
+        self.death_place_input.setFixedWidth(450)
+        self.death_place_input.setStyleSheet(combo_box_style)
+        death_place_container.addWidget(QLabel("Place of Death:"))
+        death_place_container.addWidget(self.death_place_input)
+        death_info_layout.addLayout(death_place_container)
+
+        form_layout.addLayout(death_info_layout)
+
         # Civil Status and Nationality
         cs_nat_layout = QHBoxLayout()
         cs_nat_layout.setSpacing(10)
@@ -197,35 +228,7 @@ class DeathTaggingWindow(QWidget):
 
         form_layout.addLayout(cs_nat_layout)
 
-        # Place of Death and Date of Death
-        death_info_layout = QHBoxLayout()
-        death_info_layout.setSpacing(10)
-
-        death_place_container = QVBoxLayout()
-        self.death_place_input = QComboBox()
-        self.death_place_input.setEditable(True)
-        self.death_place_input.addItems([
-            "SALVACION OPPUS YÑIGUEZ MEMORIAL PROVINCIAL HOSPITAL",
-            "MAASIN MEDCITY HOSPITAL",
-            "LIVINGHOPE HOSPITAL, INC.",
-            "CM MATERNITY CLINIC",
-        ])
-        self.death_place_input.setFixedWidth(450)
-        self.death_place_input.setStyleSheet(combo_box_style)
-        death_place_container.addWidget(QLabel("Place of Death:"))
-        death_place_container.addWidget(self.death_place_input)
-        death_info_layout.addLayout(death_place_container)
-
-        death_date_container = QVBoxLayout()
-        self.date_of_death_input = QDateEdit()
-        self.date_of_death_input.setCalendarPopup(True)
-        self.date_of_death_input.setDate(QDate.currentDate())
-        self.date_of_death_input.setFixedWidth(220)
-        self.date_of_death_input.setStyleSheet(date_picker_style)
-        death_date_container.addWidget(QLabel("Date of Death:"))
-        death_date_container.addWidget(self.date_of_death_input)
-        death_info_layout.addLayout(death_date_container)
-        form_layout.addLayout(death_info_layout)
+        
 
         # Cause of Death
         cod_layout = QHBoxLayout()
@@ -331,6 +334,7 @@ class DeathTaggingWindow(QWidget):
             }
         """)
 
+        self.pdf_list.currentItemChanged.connect(self.show_preview)
         main_layout.addWidget(self.pdf_list)
 
         # PDF Viewer Section

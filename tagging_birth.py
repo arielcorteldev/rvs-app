@@ -64,6 +64,7 @@ class BirthTaggingWindow(QWidget):
         self.last_page_no = None
         self.last_book_no = None
         self.last_reg_date = None
+        self.last_place_of_birth = None
 
         self.init_ui()
     
@@ -547,6 +548,7 @@ class BirthTaggingWindow(QWidget):
                 self.last_page_no = self.page_no_input.text()
                 self.last_book_no = self.book_no_input.text()
                 self.last_reg_date = self.date_of_reg_input.date().toString("yyyy-MM-dd")
+                self.last_place_of_birth = self.place_of_birth_combo.currentText()
                 self.pdf_viewer.load_pdf(self.selected_pdf)
                 self.load_existing_tags(self.selected_pdf)
 
@@ -643,7 +645,7 @@ class BirthTaggingWindow(QWidget):
                 self.father_name_input.clear()
                 
                 self.sex_combo.setCurrentIndex(0)
-                self.place_of_birth_combo.setCurrentIndex(0)
+                self.place_of_birth_combo.setCurrentText(self.last_place_of_birth)
                 self.mother_nationality_combo.setCurrentIndex(0)
                 self.father_nationality_combo.setCurrentIndex(0)
                 self.attendant_combo.setCurrentIndex(0)
