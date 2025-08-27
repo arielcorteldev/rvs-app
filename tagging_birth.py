@@ -176,7 +176,7 @@ class BirthTaggingWindow(QWidget):
             "LIVINGHOPE HOSPITAL, INC.",
             "CM MATERNITY CLINIC",
         ])
-        self.place_of_birth_combo.setFixedWidth(450)
+        self.place_of_birth_combo.setFixedWidth(400)
         self.place_of_birth_combo.setStyleSheet(combo_box_style)
         pob_container.addWidget(QLabel("Place of Birth:"))
         pob_container.addWidget(self.place_of_birth_combo)
@@ -185,11 +185,23 @@ class BirthTaggingWindow(QWidget):
         twin_container = QVBoxLayout()
         self.twin_combo = QComboBox()
         self.twin_combo.addItems(["NO", "YES"])
-        self.twin_combo.setFixedWidth(100)
+        self.twin_combo.setFixedWidth(50)
         self.twin_combo.setStyleSheet(combo_box_style)
         twin_container.addWidget(QLabel("Twin:"))
         twin_container.addWidget(self.twin_combo)
         birth_info_layout.addLayout(twin_container)
+
+        type_of_birth_container = QVBoxLayout()
+        self.type_of_birth_combo = QComboBox()
+        self.type_of_birth_combo.addItems([
+            "N/A", "Triplets", "Quadruplets", "Quintuplets", 
+            "Sextuplets", "Septuplets", "Octuplets", "Nonuplets", "Decaplets"
+        ])
+        self.type_of_birth_combo.setFixedWidth(100)
+        self.type_of_birth_combo.setStyleSheet(combo_box_style)
+        type_of_birth_container.addWidget(QLabel("Type of Birth:"))
+        type_of_birth_container.addWidget(self.type_of_birth_combo)
+        birth_info_layout.addLayout(type_of_birth_container)
         form_layout.addLayout(birth_info_layout)
 
         # Name of Mother and Nationality
@@ -575,7 +587,7 @@ class BirthTaggingWindow(QWidget):
                     name, date_of_birth, sex, page_no, book_no, reg_no, 
                     date_of_reg, place_of_birth, name_of_mother, nationality_mother,
                     name_of_father, nationality_father, parents_marriage_date,
-                    parents_marriage_place, attendant, late_registration, twin
+                    parents_marriage_place, attendant, type_of_birth, late_registration, twin
                 FROM birth_index 
                 WHERE file_path = %s
             """, (file_path,))
@@ -586,7 +598,7 @@ class BirthTaggingWindow(QWidget):
                 (name, date_of_birth, sex, page_no, book_no, reg_no, 
                  date_of_reg, place_of_birth, name_of_mother, nationality_mother,
                  name_of_father, nationality_father, parents_marriage_date,
-                 parents_marriage_place, attendant, late_registration, twin) = result
+                 parents_marriage_place, attendant, type_of_birth, late_registration, twin) = result
 
                 # Set QLineEdit values
                 self.page_no_input.setText(str(page_no) if page_no else "")
@@ -610,6 +622,12 @@ class BirthTaggingWindow(QWidget):
 
                 self.twin_combo.setCurrentIndex(-1)
                 self.twin_combo.setCurrentText("YES" if twin is True else "NO")
+
+                # Handle type_of_birth
+                if type_of_birth:
+                    self.type_of_birth_combo.setCurrentText(type_of_birth)
+                else:
+                    self.type_of_birth_combo.setCurrentIndex(0)  # Set to "N/A"
 
                 # Handle dates
                 if date_of_birth:
@@ -651,6 +669,7 @@ class BirthTaggingWindow(QWidget):
                 self.attendant_combo.setCurrentIndex(0)
                 self.late_reg_combo.setCurrentIndex(0)
                 self.twin_combo.setCurrentIndex(0)
+                self.type_of_birth_combo.setCurrentIndex(0)
                 
                 self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
                 self.date_of_birth_input.setDate(QDate.currentDate())
@@ -711,15 +730,19 @@ class BirthTaggingWindow(QWidget):
                 attendant = self.attendant_combo.currentText()
                 late_registration = self.late_reg_combo.currentText().strip().lower() == "yes"
                 twin = self.twin_combo.currentText().strip().lower() == "yes"
+                
+                # Handle type_of_birth - if N/A, set to NULL
+                type_of_birth_value = self.type_of_birth_combo.currentText()
+                type_of_birth = None if type_of_birth_value == "N/A" else type_of_birth_value
 
                 cursor.execute("""
                     INSERT INTO birth_index (
                         file_path, name, date_of_birth, sex, page_no, book_no, reg_no,
                         date_of_reg, place_of_birth, name_of_mother, nationality_mother,
                         name_of_father, nationality_father, parents_marriage_date,
-                        parents_marriage_place, attendant, late_registration, twin
+                        parents_marriage_place, attendant, type_of_birth, late_registration, twin
                     ) VALUES (
-                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                     )
                     ON CONFLICT(file_path) DO UPDATE SET
                         name = EXCLUDED.name,
@@ -743,7 +766,7 @@ class BirthTaggingWindow(QWidget):
                     self.selected_pdf, name, date_of_birth, sex, page_no, book_no, reg_no,
                     date_of_reg, place_of_birth, name_of_mother, nationality_mother,
                     name_of_father, nationality_father, parents_marriage_date,
-                    parents_marriage_place, attendant, late_registration, twin
+                    parents_marriage_place, attendant, type_of_birth, late_registration, twin
                 ))
 
                 AuditLogger.log_action(
@@ -837,6 +860,7 @@ class BirthTaggingWindow(QWidget):
             self.attendant_combo.setCurrentIndex(0)
             self.late_reg_combo.setCurrentIndex(0)
             self.twin_combo.setCurrentIndex(0)
+            self.type_of_birth_combo.setCurrentIndex(0)
             
             self.date_of_reg_input.setDate(QDate.currentDate())
             self.date_of_birth_input.setDate(QDate.currentDate())

@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS birth_index (
     parents_marriage_date DATE NULL,
     parents_marriage_place VARCHAR(255) NULL,
     attendant VARCHAR(255),
+    type_of_birth VARCHAR(255) NULL,
     late_registration BOOLEAN DEFAULT FALSE,
     twin BOOLEAN DEFAULT FALSE,
     file_path VARCHAR(255) UNIQUE,
@@ -109,3 +110,6 @@ ALTER TABLE death_index ADD COLUMN IF NOT EXISTS age_mins INTEGER NULL;
 
 -- Add remarks column to marriage_index
 ALTER TABLE marriage_index ADD COLUMN IF NOT EXISTS remarks TEXT NULL; 
+
+
+ALTER TABLE birth_index ADD COLUMN IF NOT EXISTS type_of_birth VARCHAR(255) NULL; 
