@@ -57,6 +57,9 @@ class BirthTaggingWindow(QWidget):
             QComboBox QLineEdit {
                 font-weight: bold;
             }
+            QDateEdit {
+                font-weight: bold;
+            }
         """)
 
         self.default_directory = r"\\server\MCR\LIVE BIRTH"
@@ -185,8 +188,8 @@ class BirthTaggingWindow(QWidget):
         type_of_birth_container = QVBoxLayout()
         self.type_of_birth_combo = QComboBox()
         self.type_of_birth_combo.addItems([
-            "Single", "Twins", "Triplets", "Quadruplets", "Quintuplets", 
-            "Sextuplets", "Septuplets", "Octuplets", "Nonuplets", "Decaplets"
+            "SINGLE", "TWIN", "TRIPLET", "QUADRUPLET", "QUINTUPLET", 
+            "SEXTUPLET", "SEPTUPLET", "OCTUPLET", "NONUPLET", "DECAPLET"
         ])
         self.type_of_birth_combo.setFixedWidth(100)
         self.type_of_birth_combo.setStyleSheet(combo_box_style)

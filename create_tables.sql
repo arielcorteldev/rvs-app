@@ -115,6 +115,10 @@
 -- ALTER TABLE birth_index ADD COLUMN IF NOT EXISTS type_of_birth VARCHAR(255) NULL; 
 -- ALTER TABLE birth_index DROP COLUMN IF EXISTS twin;
 
+-- UPDATE birth_index 
+-- SET type_of_birth = 'SINGLE'
+-- WHERE type_of_birth = 'Single';
+
 UPDATE birth_index 
-SET type_of_birth = 'Single'
-WHERE type_of_birth IS NULL;
+SET type_of_birth = 'TWIN'
+WHERE type_of_birth = 'Twins';
