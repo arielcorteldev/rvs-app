@@ -9,7 +9,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PySide6.QtWidgets import *
-from PySide6.QtCore import Qt, QDate, QSize, QUrl
+from PySide6.QtCore import Qt, QDate, QSize, QUrl, QSettings
 from PySide6.QtGui import QPixmap, QImage, QIcon
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from stylesheets import button_style, date_picker_style, combo_box_style, message_box_style
@@ -63,6 +63,8 @@ class DeathTaggingWindow(QWidget):
         self.selected_pdf = None
         self.last_page_no = None
         self.last_book_no = None
+        self.settings = QSettings("OCCR", "RVS")
+        self.pending_select_pdf = None
 
         self.init_ui()
     
@@ -409,6 +411,8 @@ class DeathTaggingWindow(QWidget):
         try:
             folder_path = QFileDialog.getExistingDirectory(self, "Select Folder", self.default_directory)
             if folder_path:
+                # persist last selected folder
+                self.settings.setValue("death/last_folder", folder_path)
                 AuditLogger.log_action(
                     conn,
                     self.current_user,
@@ -420,8 +424,8 @@ class DeathTaggingWindow(QWidget):
         finally:
             self.closeConnection()
 
-    def load_pdfs(self, folder_path):
-        """Loads PDFs from a folder and generates thumbnails."""
+    def load_pdfs(self, folder_path, selected_file_path=None):
+        """Loads PDFs from a folder and generates thumbnails. Optionally selects a file."""
         conn = self.create_connection()
         progress = None
         try:
@@ -474,6 +478,16 @@ class DeathTaggingWindow(QWidget):
                 {"folder": folder_path, "count": len(pdf_files), "failed": len(failed_files)}
             )
             conn.commit()
+            # auto-select previously selected file if provided
+            target = selected_file_path or self.pending_select_pdf
+            if target:
+                for i in range(self.pdf_list.count()):
+                    item = self.pdf_list.item(i)
+                    if item.data(Qt.UserRole) == target:
+                        self.pdf_list.setCurrentItem(item)
+                        self.show_preview(item)
+                        break
+                self.pending_select_pdf = None
             
         except Exception as e:
             AuditLogger.log_action(
@@ -525,6 +539,8 @@ class DeathTaggingWindow(QWidget):
         try:
             self.selected_pdf = item.data(Qt.UserRole)
             if self.selected_pdf:
+                # persist last selected PDF
+                self.settings.setValue("death/last_pdf", self.selected_pdf)
                 self.last_page_no = self.page_no_input.text()
                 self.last_book_no = self.book_no_input.text()
                 self.last_reg_date = self.date_of_reg_input.date().toString("yyyy-MM-dd")
@@ -867,6 +883,13 @@ class DeathTaggingWindow(QWidget):
         super().showEvent(event)
         conn = self.create_connection()
         try:
+            # attempt to restore last session state
+            last_folder = self.settings.value("death/last_folder", type=str)
+            last_pdf = self.settings.value("death/last_pdf", type=str)
+            if last_folder and os.path.isdir(last_folder):
+                if last_pdf and os.path.isfile(last_pdf):
+                    self.pending_select_pdf = last_pdf
+                self.load_pdfs(last_folder)
             AuditLogger.log_action(
                 conn,
                 self.current_user,
