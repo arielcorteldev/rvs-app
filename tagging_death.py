@@ -57,6 +57,9 @@ class DeathTaggingWindow(QWidget):
             QComboBox QLineEdit {
                 font-weight: bold;
             }
+            QDateEdit {
+                font-weight: bold;
+            }
         """)
 
         self.default_directory = r"\\server\MCR\DEATH"
@@ -459,6 +462,7 @@ class DeathTaggingWindow(QWidget):
                     thumbnail = self.generate_thumbnail(file_path)
                     
                     item = QListWidgetItem(QIcon(thumbnail), filename)
+                    item.setSizeHint(QSize(0, 40))
                     item.setData(Qt.UserRole, file_path)
                     self.pdf_list.addItem(item)
                 except Exception as e:

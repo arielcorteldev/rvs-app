@@ -480,6 +480,7 @@ class BirthTaggingWindow(QWidget):
                     thumbnail = self.generate_thumbnail(file_path)
                     
                     item = QListWidgetItem(QIcon(thumbnail), filename)
+                    item.setSizeHint(QSize(0, 40))
                     item.setData(Qt.UserRole, file_path)
                     self.pdf_list.addItem(item)
                 except Exception as e:

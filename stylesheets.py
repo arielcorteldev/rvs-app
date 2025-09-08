@@ -178,11 +178,18 @@ combo_box_style = """
                 border-radius: 4px;
                 padding: 5px;
             }
+            QComboBox:focus {
+                border: 1px solid #ce305e;
+                background-color: #fef2f4;
+            }
             QComboBox QLineEdit {
                 background-color: #FFFFFF;
                 color: #212121;
                 border: none;
                 padding: 2px;
+            }
+            QComboBox QLineEdit:focus {
+                background-color: #fef2f4;
             }
             QComboBox QAbstractItemView {
                 background-color: #FFFFFF;
