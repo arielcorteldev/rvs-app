@@ -10,7 +10,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PySide6.QtWidgets import *
 from PySide6.QtCore import Qt, QDate, QSize, QUrl, QSettings
-from PySide6.QtGui import QPixmap, QImage, QIcon
+from PySide6.QtGui import QPixmap, QImage, QIcon, QShortcut, QKeySequence
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from stylesheets import button_style, date_picker_style, combo_box_style, message_box_style
 from pdfviewer import PDFViewer
@@ -356,6 +356,10 @@ class BirthTaggingWindow(QWidget):
         save_btn.clicked.connect(self.save_tags)
         save_btn.setFixedWidth(130)
         button_layout.addWidget(save_btn)
+
+        # Add keyboard shortcut for save button (Ctrl+S)
+        save_shortcut = QShortcut(QKeySequence.StandardKey.Save, self)
+        save_shortcut.activated.connect(self.save_tags)
 
         delete_btn = QPushButton("Delete Tags")
         delete_btn.clicked.connect(self.delete_tags)
