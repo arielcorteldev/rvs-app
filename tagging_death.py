@@ -51,6 +51,9 @@ class DeathTaggingWindow(QWidget):
                 border: 1px solid #ce305e;
                 background-color: #fef2f4;
             }
+            QWidget#form_area[saved="true"] {
+                background-color: #e0e7ff;
+            }
             QComboBox {
                 font-weight: bold;
             }
@@ -100,6 +103,8 @@ class DeathTaggingWindow(QWidget):
         
         # Create a widget to hold the form
         form_widget = QWidget()
+        form_widget.setObjectName("form_area")
+        self.form_area = form_widget
         form_layout = QVBoxLayout()
         form_layout.setAlignment(Qt.AlignTop)
         form_widget.setLayout(form_layout)
@@ -157,55 +162,9 @@ class DeathTaggingWindow(QWidget):
 
         form_layout.addLayout(name_sex_layout)
 
-        # Age
-        age_layout = QHBoxLayout()
-        age_layout.setSpacing(10)
-        
-        age_container = QVBoxLayout()
-        self.age_input = QLineEdit()
-        self.age_input.setPlaceholderText("Age (Years)")
-        self.age_input.setFixedWidth(70)
-        age_container.addWidget(QLabel("Age (Years):"))
-        age_container.addWidget(self.age_input)
-        age_layout.addLayout(age_container)    
-
-        age_months_container = QVBoxLayout()
-        self.age_months_input = QLineEdit()
-        self.age_months_input.setPlaceholderText("Months")
-        self.age_months_input.setFixedWidth(70)
-        age_months_container.addWidget(QLabel("Months:"))
-        age_months_container.addWidget(self.age_months_input)
-        age_layout.addLayout(age_months_container)
-
-        age_days_container = QVBoxLayout()
-        self.age_days_input = QLineEdit()
-        self.age_days_input.setPlaceholderText("Days")
-        self.age_days_input.setFixedWidth(70)
-        age_days_container.addWidget(QLabel("Days:"))
-        age_days_container.addWidget(self.age_days_input)
-        age_layout.addLayout(age_days_container)
-
-        age_hours_container = QVBoxLayout()
-        self.age_hours_input = QLineEdit()
-        self.age_hours_input.setPlaceholderText("Hours")
-        self.age_hours_input.setFixedWidth(70)
-        age_hours_container.addWidget(QLabel("Hours:"))
-        age_hours_container.addWidget(self.age_hours_input)
-        age_layout.addLayout(age_hours_container)
-
-        age_mins_container = QVBoxLayout()
-        self.age_mins_input = QLineEdit()
-        self.age_mins_input.setPlaceholderText("Minutes")
-        self.age_mins_input.setFixedWidth(70)
-        age_mins_container.addWidget(QLabel("Minutes:"))
-        age_mins_container.addWidget(self.age_mins_input)
-        age_layout.addLayout(age_mins_container)
-
-        form_layout.addLayout(age_layout)
-
-        # Place of Death and Date of Death
-        death_info_layout = QHBoxLayout()
-        death_info_layout.setSpacing(10)
+        # Date of Death and Age
+        date_age_layout = QHBoxLayout()
+        date_age_layout.setSpacing(10)
 
         death_date_container = QVBoxLayout()
         self.date_of_death_input = QDateEdit()
@@ -215,7 +174,53 @@ class DeathTaggingWindow(QWidget):
         self.date_of_death_input.setStyleSheet(date_picker_style)
         death_date_container.addWidget(QLabel("Date of Death:"))
         death_date_container.addWidget(self.date_of_death_input)
-        death_info_layout.addLayout(death_date_container)
+        date_age_layout.addLayout(death_date_container)
+        
+        age_container = QVBoxLayout()
+        self.age_input = QLineEdit()
+        self.age_input.setPlaceholderText("Age (Years)")
+        self.age_input.setFixedWidth(70)
+        age_container.addWidget(QLabel("Age (Years):"))
+        age_container.addWidget(self.age_input)
+        date_age_layout.addLayout(age_container)    
+
+        age_months_container = QVBoxLayout()
+        self.age_months_input = QLineEdit()
+        self.age_months_input.setPlaceholderText("Months")
+        self.age_months_input.setFixedWidth(70)
+        age_months_container.addWidget(QLabel("Months:"))
+        age_months_container.addWidget(self.age_months_input)
+        date_age_layout.addLayout(age_months_container)
+
+        age_days_container = QVBoxLayout()
+        self.age_days_input = QLineEdit()
+        self.age_days_input.setPlaceholderText("Days")
+        self.age_days_input.setFixedWidth(70)
+        age_days_container.addWidget(QLabel("Days:"))
+        age_days_container.addWidget(self.age_days_input)
+        date_age_layout.addLayout(age_days_container)
+
+        age_hours_container = QVBoxLayout()
+        self.age_hours_input = QLineEdit()
+        self.age_hours_input.setPlaceholderText("Hours")
+        self.age_hours_input.setFixedWidth(70)
+        age_hours_container.addWidget(QLabel("Hours:"))
+        age_hours_container.addWidget(self.age_hours_input)
+        date_age_layout.addLayout(age_hours_container)
+
+        age_mins_container = QVBoxLayout()
+        self.age_mins_input = QLineEdit()
+        self.age_mins_input.setPlaceholderText("Minutes")
+        self.age_mins_input.setFixedWidth(70)
+        age_mins_container.addWidget(QLabel("Minutes:"))
+        age_mins_container.addWidget(self.age_mins_input)
+        date_age_layout.addLayout(age_mins_container)
+
+        form_layout.addLayout(date_age_layout)
+
+        # Place of Death
+        death_info_layout = QHBoxLayout()
+        death_info_layout.setSpacing(10)    
 
         death_place_container = QVBoxLayout()
         self.death_place_input = QComboBox()
@@ -226,7 +231,7 @@ class DeathTaggingWindow(QWidget):
             "LIVINGHOPE HOSPITAL, INC.",
             "CM MATERNITY CLINIC",
         ])
-        self.death_place_input.setFixedWidth(450)
+        self.death_place_input.setFixedWidth(700)
         self.death_place_input.setStyleSheet(combo_box_style)
         death_place_container.addWidget(QLabel("Place of Death:"))
         death_place_container.addWidget(self.death_place_input)
@@ -271,8 +276,6 @@ class DeathTaggingWindow(QWidget):
 
         form_layout.addLayout(cs_nat_layout)
 
-        
-
         # Cause of Death
         cod_layout = QHBoxLayout()
         cod_layout.setSpacing(10)
@@ -280,7 +283,7 @@ class DeathTaggingWindow(QWidget):
         cod_container = QVBoxLayout()
         self.cause_of_death_input = QLineEdit()
         self.cause_of_death_input.setPlaceholderText("Cause of Death")
-        self.cause_of_death_input.setFixedWidth(650)
+        self.cause_of_death_input.setFixedWidth(700)
         cod_container.addWidget(QLabel("Cause of Death:"))
         cod_container.addWidget(self.cause_of_death_input)
         cod_layout.addLayout(cod_container)
@@ -624,6 +627,8 @@ class DeathTaggingWindow(QWidget):
                 else:
                     self.date_of_reg_input.setDate(QDate.currentDate())
 
+                self.set_saved_cue(True)
+
             else:
                 # Clear all fields
                 self.page_no_input.setText(self.last_page_no)
@@ -646,6 +651,8 @@ class DeathTaggingWindow(QWidget):
                 
                 self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
                 self.date_of_death_input.setDate(QDate.currentDate())
+
+                self.set_saved_cue(False)
         finally:
             if cursor:
                 cursor.close()
@@ -754,6 +761,8 @@ class DeathTaggingWindow(QWidget):
                 box.setStyleSheet(message_box_style)
                 box.exec()
 
+                self.set_saved_cue(True)
+
             except Exception as e:
                 AuditLogger.log_action(
                     conn,
@@ -832,7 +841,9 @@ class DeathTaggingWindow(QWidget):
             
             self.date_of_reg_input.setDate(QDate.currentDate())
             self.date_of_death_input.setDate(QDate.currentDate())
-            
+
+            self.set_saved_cue(False)
+
             # QMessageBox.information(self, "Success", "Tags deleted successfully!")
             box = QMessageBox(self)
             box.setIcon(QMessageBox.Information)
@@ -937,6 +948,35 @@ class DeathTaggingWindow(QWidget):
     #         self.date_of_marriage_input.setEnabled(True)
     #         if not self.date_of_marriage_input.date().isValid() or self.date_of_marriage_input.date() == QDate():
     #             self.date_of_marriage_input.setDate(QDate.currentDate())
+
+
+    # def get_form_fields(self):
+    #     """Return all form field widgets for styling updates."""
+    #     return [
+    #         # Line edits
+    #         self.page_no_input, self.book_no_input, self.reg_no_input, self.name_input,
+    #         self.age_input, self.age_months_input, self.age_days_input, self.age_hours_input,
+    #         self.age_mins_input, self.cause_of_death_input,
+    #         # Combo boxes
+    #         self.sex_combo, self.civil_status_combo, self.nationality_combo, self.death_place_input,
+    #         self.corpse_disposal_combo, self.late_reg_combo,
+    #         # Dates
+    #         self.date_of_death_input, self.date_of_reg_input,
+    #     ]
+
+    def set_saved_cue(self, enabled):
+        """Toggle green saved border on all fields."""
+        # for widget in self.get_form_fields():
+        #     widget.setProperty("saved", True if enabled else False)
+        #     # Re-polish to apply dynamic property stylesheet
+        #     widget.style().unpolish(widget)
+        #     widget.style().polish(widget)
+        #     widget.update()
+        if hasattr(self, 'form_area') and self.form_area is not None:
+            self.form_area.setProperty("saved", True if enabled else False)
+            self.form_area.style().unpolish(self.form_area)
+            self.form_area.style().polish(self.form_area)
+            self.form_area.update()
 
 
 # if __name__ == "__main__":

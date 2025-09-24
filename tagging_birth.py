@@ -51,6 +51,9 @@ class BirthTaggingWindow(QWidget):
                 border: 1px solid #ce305e;
                 background-color: #fef2f4;
             }
+            QWidget#form_area[saved="true"] {
+                background-color: #dff9e5; /* light green form background */
+            }           
             QComboBox {
                 font-weight: bold;
             }
@@ -103,6 +106,8 @@ class BirthTaggingWindow(QWidget):
         
         # Create a widget to hold the form
         form_widget = QWidget()
+        form_widget.setObjectName("form_area")
+        self.form_area = form_widget
         form_layout = QVBoxLayout()
         form_layout.setAlignment(Qt.AlignTop)
         form_widget.setLayout(form_layout)
@@ -662,6 +667,9 @@ class BirthTaggingWindow(QWidget):
                     self.date_of_marriage_input.setEnabled(True)
                 else:
                     self.date_of_marriage_input.setEnabled(False)
+
+                self.set_saved_cue(True)
+            
             else:
                 # Clear all fields
                 self.page_no_input.setText(self.last_page_no)
@@ -683,6 +691,8 @@ class BirthTaggingWindow(QWidget):
                 self.date_of_birth_input.setDate(QDate.currentDate())
                 self.date_of_marriage_input.setDate(QDate.currentDate())
                 self.date_of_marriage_input.setEnabled(False)
+                
+                self.set_saved_cue(False)
         finally:
             if cursor:
                 cursor.close()
@@ -792,6 +802,8 @@ class BirthTaggingWindow(QWidget):
                 box.setStyleSheet(message_box_style)
                 box.exec()
 
+                self.set_saved_cue(True)
+                
             except Exception as e:
                 AuditLogger.log_action(
                     conn,
@@ -870,6 +882,8 @@ class BirthTaggingWindow(QWidget):
             self.date_of_marriage_input.setDate(QDate.currentDate())
             self.date_of_marriage_input.setEnabled(False)
             
+            self.set_saved_cue(False)
+
             # QMessageBox.information(self, "Success", "Tags deleted successfully!")
             box = QMessageBox(self)
             box.setIcon(QMessageBox.Information)
@@ -982,6 +996,36 @@ class BirthTaggingWindow(QWidget):
             self.date_of_marriage_input.setEnabled(True)
             if not self.date_of_marriage_input.date().isValid() or self.date_of_marriage_input.date() == QDate():
                 self.date_of_marriage_input.setDate(QDate.currentDate())
+
+
+
+    # def get_form_fields(self):
+    #     """Return all form field widgets for styling updates."""
+    #     return [
+    #         # Line edits
+    #         self.page_no_input, self.book_no_input, self.reg_no_input, self.name_input,
+    #         self.mother_name_input, self.father_name_input,
+    #         # Combo boxes
+    #         self.sex_combo, self.place_of_birth_combo, self.mother_nationality_combo,
+    #         self.father_nationality_combo, self.attendant_combo, self.late_reg_combo,
+    #         self.type_of_birth_combo, self.marriage_place_input,
+    #         # Dates
+    #         self.date_of_birth_input, self.date_of_reg_input, self.date_of_marriage_input,
+    #     ]
+
+    def set_saved_cue(self, enabled):
+        """Toggle green saved border on all fields."""
+        # for widget in self.get_form_fields():
+        #     widget.setProperty("saved", True if enabled else False)
+        #     # Re-polish to apply dynamic property stylesheet
+        #     widget.style().unpolish(widget)
+        #     widget.style().polish(widget)
+        #     widget.update()
+        if hasattr(self, 'form_area') and self.form_area is not None:
+            self.form_area.setProperty("saved", True if enabled else False)
+            self.form_area.style().unpolish(self.form_area)
+            self.form_area.style().polish(self.form_area)
+            self.form_area.update()
 
 
 

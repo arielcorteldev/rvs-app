@@ -51,6 +51,9 @@ class MarriageTaggingWindow(QWidget):
                 border: 1px solid #ce305e;
                 background-color: #fef2f4;
             }
+            QWidget#form_area[saved="true"] {
+                background-color: #fce7f5; 
+            }
             QComboBox {
                 font-weight: bold;
             }
@@ -103,6 +106,8 @@ class MarriageTaggingWindow(QWidget):
         
         # Create a widget to hold the form
         form_widget = QWidget()
+        form_widget.setObjectName("form_area")
+        self.form_area = form_widget
         form_layout = QVBoxLayout()
         form_layout.setAlignment(Qt.AlignTop)
         form_widget.setLayout(form_layout)
@@ -677,6 +682,8 @@ class MarriageTaggingWindow(QWidget):
                 else:
                     self.date_of_reg_input.setDate(QDate.currentDate())
 
+                self.set_saved_cue(True)
+
             else:
                 # Clear all fields
                 self.page_no_input.setText(self.last_page_no)
@@ -701,6 +708,9 @@ class MarriageTaggingWindow(QWidget):
                 
                 self.date_of_reg_input.setDate(QDate.fromString(self.last_reg_date, "yyyy-MM-dd"))
                 self.date_of_marriage_input.setDate(QDate.fromString(self.last_date_of_marriage, "yyyy-MM-dd"))
+
+                self.set_saved_cue(False)
+
         finally:
             if cursor:
                 cursor.close()
@@ -811,6 +821,8 @@ class MarriageTaggingWindow(QWidget):
                 box.setStyleSheet(message_box_style)
                 box.exec()
 
+                self.set_saved_cue(True)
+
             except Exception as e:
                 AuditLogger.log_action(
                     conn,
@@ -891,6 +903,8 @@ class MarriageTaggingWindow(QWidget):
             
             self.date_of_reg_input.setDate(QDate.currentDate())
             self.date_of_marriage_input.setDate(QDate.currentDate())
+
+            self.set_saved_cue(False)
             
             # QMessageBox.information(self, "Success", "Tags deleted successfully!")
             box = QMessageBox(self)
@@ -1003,6 +1017,38 @@ class MarriageTaggingWindow(QWidget):
     #         self.date_of_marriage_input.setEnabled(True)
     #         if not self.date_of_marriage_input.date().isValid() or self.date_of_marriage_input.date() == QDate():
     #             self.date_of_marriage_input.setDate(QDate.currentDate())
+
+
+    # def get_form_fields(self):
+    #     """Return all form field widgets for styling updates."""
+    #     return [
+    #         # Line edits
+    #         self.page_no_input, self.book_no_input, self.reg_no_input,
+    #         self.husband_name_input, self.husband_age_input,
+    #         self.husband_mother_name_input, self.husband_father_name_input,
+    #         self.wife_name_input, self.wife_age_input,
+    #         self.wife_mother_name_input, self.wife_father_name_input,
+    #         # Combo boxes
+    #         self.place_of_marriage_combo, self.husband_nationality_combo, self.wife_nationality_combo,
+    #         self.husband_civil_status_combo, self.wife_civil_status_combo,
+    #         self.ceremony_type_combo, self.late_reg_combo,
+    #         # Dates
+    #         self.date_of_marriage_input, self.date_of_reg_input,
+    #     ]
+
+    def set_saved_cue(self, enabled):
+        """Toggle green saved border on all fields."""
+        # for widget in self.get_form_fields():
+        #     widget.setProperty("saved", True if enabled else False)
+        #     # Re-polish to apply dynamic property stylesheet
+        #     widget.style().unpolish(widget)
+        #     widget.style().polish(widget)
+        #     widget.update()
+        if hasattr(self, 'form_area') and self.form_area is not None:
+            self.form_area.setProperty("saved", True if enabled else False)
+            self.form_area.style().unpolish(self.form_area)
+            self.form_area.style().polish(self.form_area)
+            self.form_area.update()
 
 
 # if __name__ == "__main__":
