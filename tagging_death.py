@@ -245,7 +245,7 @@ class DeathTaggingWindow(QWidget):
 
         cs_container = QVBoxLayout()
         self.civil_status_combo = QComboBox()
-        self.civil_status_combo.addItems(["SINGLE", "MARRIED", "WIDOW", "WIDOWER"])
+        self.civil_status_combo.addItems(["SINGLE", "MARRIED", "WIDOW", "WIDOWER", "DIVORCED", "ANNULLED"])
         self.civil_status_combo.setFixedWidth(300)
         self.civil_status_combo.setStyleSheet(combo_box_style)
         cs_container.addWidget(QLabel("Civil Status:"))

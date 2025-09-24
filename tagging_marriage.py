@@ -193,7 +193,7 @@ class MarriageTaggingWindow(QWidget):
 
         husband_cs_container = QVBoxLayout()
         self.husband_civil_status_combo = QComboBox()
-        self.husband_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
+        self.husband_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER", "DIVORCED", "ANNULLED"])
         self.husband_civil_status_combo.setFixedWidth(300)
         self.husband_civil_status_combo.setStyleSheet(combo_box_style)
         husband_cs_container.addWidget(QLabel("Civil Status:"))
@@ -275,7 +275,7 @@ class MarriageTaggingWindow(QWidget):
 
         wife_cs_container = QVBoxLayout()
         self.wife_civil_status_combo = QComboBox()
-        self.wife_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER"])
+        self.wife_civil_status_combo.addItems(["SINGLE", "WIDOW", "WIDOWER", "DIVORCED", "ANNULLED"])
         self.wife_civil_status_combo.setFixedWidth(300)
         self.wife_civil_status_combo.setStyleSheet(combo_box_style)
         wife_cs_container.addWidget(QLabel("Civil Status:"))
