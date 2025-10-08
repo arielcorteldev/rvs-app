@@ -658,6 +658,31 @@ class DeathTaggingWindow(QWidget):
                 cursor.close()
             self.closeConnection()
 
+    def check_registry_number_exists(self, conn, reg_no, exclude_file_path=None):
+        """Check if registry number already exists in the database."""
+        if not reg_no or reg_no.strip() == "":
+            return False, None
+            
+        cursor = conn.cursor()
+        try:
+            # Check if registry number exists, optionally excluding current file
+            if exclude_file_path:
+                cursor.execute("""
+                    SELECT file_path, name FROM death_index 
+                    WHERE reg_no = %s AND file_path != %s
+                """, (reg_no.strip(), exclude_file_path))
+            else:
+                cursor.execute("""
+                    SELECT file_path, name FROM death_index 
+                    WHERE reg_no = %s
+                """, (reg_no.strip(),))
+            
+            result = cursor.fetchone()
+            return result is not None, result
+        finally:
+            if cursor:
+                cursor.close()
+
     def save_tags(self):
         conn = self.create_connection()
         try:
@@ -688,6 +713,29 @@ class DeathTaggingWindow(QWidget):
                 book_no = int(self.book_no_input.text()) if self.book_no_input.text() else None
                 reg_no = self.reg_no_input.text()
                 name = self.name_input.text()
+                
+                # Check if registry number already exists
+                if reg_no and reg_no.strip():
+                    exists, existing_record = self.check_registry_number_exists(conn, reg_no, self.selected_pdf)
+                    if exists:
+                        existing_file, existing_name = existing_record
+                        AuditLogger.log_action(
+                            conn,
+                            self.current_user,
+                            "TAG_SAVE_FAILED",
+                            {"reason": "duplicate_registry_number", "reg_no": reg_no, "existing_file": existing_file}
+                        )
+                        conn.commit()
+                        
+                        box = QMessageBox(self)
+                        box.setIcon(QMessageBox.Warning)
+                        box.setWindowTitle("Duplicate Registry Number")
+                        box.setText(f"Registry number '{reg_no}' already exists in the database.\n\nExisting record:\nName: {existing_name}\nFile: {os.path.basename(existing_file)}")
+                        box.setStandardButtons(QMessageBox.Ok)
+                        box.setStyleSheet(message_box_style)
+                        box.exec()
+                        return
+                
                 def parse_int(text):
                     return int(text) if text and text.isdigit() else None
 
