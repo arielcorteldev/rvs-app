@@ -1,8 +1,8 @@
-('C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS dev\\build\\app\\OCCR RVS.exe',
+('C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS dev\\build\\app\\OCCR RVS.exe',
  False,
  False,
  True,
- ['C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS dev\\icons\\RVS-icon.ico'],
+ ['C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS dev\\icons\\RVS-icon.ico'],
  None,
  False,
  False,
@@ -29,72 +29,64 @@
  None,
  None,
  None,
- 'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS dev\\build\\app\\OCCR RVS.pkg',
+ 'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS dev\\build\\app\\OCCR RVS.pkg',
  [('pyi-contents-directory _internal', '', 'OPTION'),
   ('PYZ-00.pyz',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS dev\\build\\app\\PYZ-00.pyz',
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS dev\\build\\app\\PYZ-00.pyz',
    'PYZ'),
   ('struct',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS '
    'dev\\build\\app\\localpycs\\struct.pyc',
    'PYMODULE'),
   ('pyimod01_archive',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS '
    'dev\\build\\app\\localpycs\\pyimod01_archive.pyc',
    'PYMODULE'),
   ('pyimod02_importers',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS '
    'dev\\build\\app\\localpycs\\pyimod02_importers.pyc',
    'PYMODULE'),
   ('pyimod03_ctypes',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS '
    'dev\\build\\app\\localpycs\\pyimod03_ctypes.pyc',
    'PYMODULE'),
   ('pyimod04_pywin32',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
+   'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS '
    'dev\\build\\app\\localpycs\\pyimod04_pywin32.pyc',
    'PYMODULE'),
   ('pyiboot01_bootstrap',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
    'PYSOURCE'),
   ('pyi_rth_inspect',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
    'PYSOURCE'),
   ('pyi_rth_pkgutil',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
    'PYSOURCE'),
   ('pyi_rth_multiprocessing',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
-   'PYSOURCE'),
-  ('pyi_rth_pkgres',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
-   'PYSOURCE'),
-  ('pyi_rth_setuptools',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_setuptools.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
    'PYSOURCE'),
   ('pyi_rth_pyside6',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyside6.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyside6.py',
    'PYSOURCE'),
   ('pyi_rth_mplconfig',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_mplconfig.py',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_mplconfig.py',
    'PYSOURCE'),
-  ('app',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS dev\\app.py',
-   'PYSOURCE')],
+  ('pyi_rth_cryptography_openssl',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\_pyinstaller_hooks_contrib\\rthooks\\pyi_rth_cryptography_openssl.py',
+   'PYSOURCE'),
+  ('pyi_rth_setuptools',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_setuptools.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgres',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
+   'PYSOURCE'),
+  ('app', 'C:\\ayie\\PROJECTS\\LGU\\RVS APP\\RVS dev\\app.py', 'PYSOURCE')],
  [],
  False,
  False,
- 1756448038,
+ 1760065830,
  [('runw.exe',
-   'C:\\ayie\\Coding Projects\\LGU\\RVS APP\\RVS '
-   'dev\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
+   'C:\\Users\\ThisPC\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
  'C:\\Python313\\python313.dll')

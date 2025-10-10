@@ -3,13 +3,17 @@ import os
 
 a = Analysis(
     ['app.py'],
-    pathex=[],
+    pathex=[
+        r'C:\Users\ThisPC\AppData\Roaming\Python\Python313\site-packages',
+        r'C:\Python313\Lib\site-packages'
+    ],
     binaries = [
-        (os.path.join(os.getcwd(), '.venv', 'Lib', 'site-packages', 'pyzbar', 'libiconv.dll'), '.'),
-        (os.path.join(os.getcwd(), '.venv', 'Lib', 'site-packages', 'pyzbar', 'libzbar-64.dll'), '.')  
+        (r'C:\Users\ThisPC\AppData\Roaming\Python\Python313\site-packages\pyzbar\libiconv.dll', '.'),
+        (r'C:\Users\ThisPC\AppData\Roaming\Python\Python313\site-packages\pyzbar\libzbar-64.dll', '.'),
+        (r'C:\Users\ThisPC\AppData\Roaming\Python\Python313\site-packages\psycopg2\_psycopg.cp313-win_amd64.pyd', 'psycopg2'),
     ],
     datas=[('flask_server', 'flask_server'), ('forms', 'forms'), ('forms_img', 'forms_img'), ('icons', 'icons'), ('images', 'images'), ('.env', '.'), ('audit_log_viewer.py', '.'), ('audit_logger.py', '.'), ('auto_form.py', '.'), ('book_viewer.py', '.'), ('db_config.py', '.'), ('everify_form.py', '.'), ('everify_server.log', '.'), ('Login_Dialog.py', '.'), ('MainWindow.py', '.'), ('Manage_User_Widget.py', '.'), ('manage_users.py', '.'), ('pdfviewer.py', '.'), ('qr_scanner_window.py', '.'), ('releasing_docs.py', '.'), ('releasing_log_viewer.py', '.'), ('requirements.txt', '.'), ('Search_Birth_Window.py', '.'), ('Search_Death_Window.py', '.'), ('Search_Marriage_Window.py', '.'), ('search.py', '.'), ('stats.py', '.'), ('stylesheets.py', '.'), ('tagging_birth.py', '.'), ('tagging_death.py', '.'), ('tagging_main.py', '.'), ('tagging_marriage.py', '.'), ('verify.py', '.')],
-    hiddenimports=['flask', 'requests', 'jwt', 'jwt.algorithms' 'opencv-python', 'pyzbar', 'numpy', 'PySide6.QtCore', 'PySide6.QtGui', 'PySide6.QtWidgets', 'sqlite3', 'matplotlib', 'matplotlib.backends.backend_qt5agg', 'reportlab', 'psycopg2', 'psycopg2._psycopg'],
+    hiddenimports=['flask', 'requests', 'jwt', 'jwt.algorithms', 'opencv-python', 'pyzbar', 'numpy', 'PySide6.QtCore', 'PySide6.QtGui', 'PySide6.QtWidgets', 'sqlite3', 'matplotlib', 'matplotlib.backends.backend_qt5agg', 'reportlab', 'psycopg2', 'psycopg2._psycopg', 'psycopg2.extensions', 'psycopg2.extras', 'psycopg2.tz', 'psycopg2.pool', 'psycopg2.sql', 'psycopg2.types', 'psycopg2.errors', 'psycopg2.adapt'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
