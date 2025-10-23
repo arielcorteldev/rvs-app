@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birth Certificate - Office of the City Civil Registrar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        /* Ensure print output uses A4 */
+        @page {
+            size: A4;
+            margin: 10mm 10mm; /* adjust as needed */
+        }
+        /* make certificate match A4 printable width */
+        .certificate {
+            max-width: 210mm;
+            width: 210mm;
+            margin: 0 auto;
+            padding: 10mm;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .form-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 11px;
+        }
+        
+        .header h1 {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        
+        .header h2 {
+            font-size: 13px;
+            font-weight: normal;
+            margin: 3px 0;
+        }
+        
+        .date-field {
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+        
+        .date-field input {
+            border: none;
+            border-bottom: 1px solid #000;
+            width: 200px;
+            text-align: center;
+        }
+        
+        .to-whom {
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .certification-text {
+            margin-bottom: 20px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        /* indent the first part of the certification text */
+        .certification-text .lead {
+            display: block;
+            margin-left: 30px; /* adjust to change indent */
+        }
+        
+        .book-number {
+            display: inline-block;
+            border-bottom: 1px solid #000;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .form-group {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 12px;
+            align-items: center;
+        }
+        
+        .form-group label {
+            width: 200px;
+            font-weight: bold;
+        }
+        
+        .form-group .colon {
+            margin: 0 10px;
+        }
+        
+        .form-group input {
+            flex: 1;
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+        
+        .issued-to {
+            margin: 30px 0 20px 0;
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        .issued-to input {
+            border: none;
+            border-bottom: 1px solid #000;
+            width: 300px;
+            margin: 0 5px;
+        }
+        
+        .remarks {
+            margin-bottom: 40px;
+            font-size: 12px;
+        }
+        
+        .remarks-label {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+        
+        .remarks textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+        
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        
+        .verified-by, .registrar {
+            font-size: 12px;
+        }
+        
+        .verified-by input, .registrar input {
+            border: none;
+            border-bottom: 1px solid #000;
+            width: 200px;
+            margin-left: 5px;
+        }
+        
+        .registrar {
+            text-align: right;
+        }
+        
+        .registrar-name {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 5px;
+        }
+        
+        .payment-info {
+            margin-top: 30px;
+            font-size: 11px;
+        }
+        
+        .payment-info .info-line {
+            display: flex;
+            margin-bottom: 5px;
+        }
+        
+        .payment-info label {
+            width: 100px;
+        }
+        
+        .payment-info input {
+            border: none;
+            border-bottom: 1px solid #000;
+            width: 200px;
+            margin-left: 5px;
+        }
+        
+        .note {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid #000;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 10px;
+        }
+        
+        @media print {
+            @page { size: A4; margin: 10mm 15mm; }
+            body {
+                background: white;
+                padding: 0;
+            }
+            .certificate {
+                box-shadow: none;
+                max-width: none;
+                width: auto;
+                padding: 10mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="header">
+            <div class="form-number">
+                LCR Form No. 1A<br>
+                (BIRTH- Available)
+            </div>
+            <h1>Republic of the Philippines</h1>
+            <h2>Province of Southern Leyte</h2>
+            <h2>CITY OF MAASIN</h2>
+            <h1>OFFICE OF THE CITY CIVIL REGISTRAR</h1>
+        </div>
+        
+        <div class="date-field">
+            <label for="certificateDate">DATE:</label> <input type="text" id="certificateDate" />
+        </div>
+        
+        <div class="to-whom">
+            TO WHOM IT MAY CONCERN:
+        </div>
+        
+        <div class="certification-text">
+            <span class="lead">WE CERTIFY that, among others, the following facts of Birth appearing in our</span>
+            Register of Births on Page <span class="book-number" id="pageNumber"></span> of Book No. <span class="book-number" id="bookNumber"></span>
+        </div>
+        
+        <div class="form-group">
+            <label for="lcrNumber">LCR Registry Number</label>
+            <span class="colon">:</span>
+            <input type="text" id="lcrNumber" />
+        </div>
+        
+        <div class="form-group">
+            <label for="dateRegistration">Date of Registration</label>
+            <span class="colon">:</span>
+            <input type="text" id="dateRegistration" />
+        </div>
+        
+        <div class="form-group">
+            <label for="childName">NAME OF CHILD</label>
+            <span class="colon">:</span>
+            <input type="text" id="childName" />
+        </div>
+        
+        <div class="form-group">
+            <label for="sex">Sex</label>
+            <span class="colon">:</span>
+            <input type="text" id="sex" />
+        </div>
+        
+        <div class="form-group">
+            <label for="dateBirth">Date of Birth</label>
+            <span class="colon">:</span>
+            <input type="text" id="dateBirth" />
+        </div>
+        
+        <div class="form-group">
+            <label for="placeBirth">Place of Birth</label>
+            <span class="colon">:</span>
+            <input type="text" id="placeBirth" />
+        </div>
+        
+        <div class="form-group">
+            <label for="motherName">Name of Mother</label>
+            <span class="colon">:</span>
+            <input type="text" id="motherName" />
+        </div>
+        
+        <div class="form-group">
+            <label for="motherNationality">Nationality</label>
+            <span class="colon">:</span>
+            <input type="text" id="motherNationality" />
+        </div>
+        
+        <div class="form-group">
+            <label for="fatherName">Name of Father</label>
+            <span class="colon">:</span>
+            <input type="text" id="fatherName" />
+        </div>
+        
+        <div class="form-group">
+            <label for="fatherNationality">Nationality</label>
+            <span class="colon">:</span>
+            <input type="text" id="fatherNationality" />
+        </div>
+        
+        <div class="form-group">
+            <label for="marriageDate">Date of Marriage of Parents</label>
+            <span class="colon">:</span>
+            <input type="text" id="marriageDate" />
+        </div>
+        
+        <div class="form-group">
+            <label for="marriagePlace">Place of Marriage of Parents</label>
+            <span class="colon">:</span>
+            <input type="text" id="marriagePlace" />
+        </div>
+        
+        <div class="issued-to">
+            <i>THIS CERTIFICATION</i> is issued to <label for="issuedTo" class="sr-only" style="display:none">Issued To</label><input type="text" id="issuedTo" /> upon
+            his/ her request.
+        </div>
+        
+        <div class="remarks">
+            <div class="remarks-label">REMARKS:</div>
+            <textarea id="remarks"></textarea>
+        </div>
+        
+        <div class="signature-section">
+            <div class="verified-by">
+                VERIFIED BY: <input type="text" id="verifiedBy" />
+            </div>
+            <div class="registrar">
+                <div class="registrar-name">JENNY F. ANG</div>
+                <div>City Civil Registrar</div>
+            </div>
+        </div>
+        
+        <div class="payment-info">
+            <div class="info-line">
+                <label for="amountPaid">Amount Paid</label>
+                <input type="text" id="amountPaid" />
+            </div>
+            <div class="info-line">
+                <label for="orNumber">O.R. Number</label>
+                <input type="text" id="orNumber" />
+            </div>
+            <div class="info-line">
+                <label for="datePaid">Date Paid</label>
+                <input type="text" id="datePaid" />
+            </div>
+        </div>
+        
+        <div class="note">
+            NOTE: THIS CERTIFICATION is not valid if it has mark or erasure or alteration of any entry.
+        </div>
+        
+        <div class="footer">
+            Maasin City Hall, Tunga-tunga, Maasin City, Southern Leyte, Philippines<br>
+            <strong>Email Add.:</strong> civilregistrarmaasin@yahoo.com.ph
+        </div>
+    </div>
+
+    <script>
+        // Example function to populate form with data from your Python backend
+        function populateForm(data) {
+            document.getElementById('certificateDate').value = data.certificate_date || '';
+            document.getElementById('pageNumber').textContent = data.page_number || '';
+            document.getElementById('bookNumber').textContent = data.book_number || '';
+            document.getElementById('lcrNumber').value = data.lcr_number || '';
+            document.getElementById('dateRegistration').value = data.date_registration || '';
+            document.getElementById('childName').value = data.child_name || '';
+            document.getElementById('sex').value = data.sex || '';
+            document.getElementById('dateBirth').value = data.date_birth || '';
+            document.getElementById('placeBirth').value = data.place_birth || '';
+            document.getElementById('motherName').value = data.mother_name || '';
+            document.getElementById('motherNationality').value = data.mother_nationality || '';
+            document.getElementById('fatherName').value = data.father_name || '';
+            document.getElementById('fatherNationality').value = data.father_nationality || '';
+            document.getElementById('marriageDate').value = data.marriage_date || '';
+            document.getElementById('marriagePlace').value = data.marriage_place || '';
+            document.getElementById('issuedTo').value = data.issued_to || '';
+            document.getElementById('remarks').value = data.remarks || '';
+            document.getElementById('verifiedBy').value = data.verified_by || '';
+            document.getElementById('amountPaid').value = data.amount_paid || '';
+            document.getElementById('orNumber').value = data.or_number || '';
+            document.getElementById('datePaid').value = data.date_paid || '';
+        }
+
+        // Example usage - call this function with data from your Python backend
+        // populateForm(dataFromDatabase);
+    </script>
+</body>
+</html>
