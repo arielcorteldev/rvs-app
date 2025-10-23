@@ -4,3 +4,7 @@ __pycache__/
 *.pyd
 .env
 *.db
+
+# Local Python virtual environment
+.venv/
+.venv
