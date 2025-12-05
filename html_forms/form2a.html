@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Birth Certificate - Office of the City Civil Registrar</title>
+    <title>Death Certificate - Office of the City Civil Registrar</title>
     <style>
       * {
         margin: 0;
@@ -137,6 +137,17 @@
         font-weight: bold;
       }
 
+      .form-group textarea {
+        width: 300px;
+        min-height: 50px;
+        border: none;
+        border-bottom: 1px solid #000;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
       .issued-to {
         margin: 20px 0 5px 0;
         font-size: 12px;
@@ -182,7 +193,7 @@
       .signature-section {
         display: flex;
         justify-content: space-between;
-        margin-top: 15mm;
+        margin-top: 5dvh;
         margin-bottom: 30px;
       }
 
@@ -246,13 +257,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: -10px;
       }
 
       .office-order input {
         border: none;
         border-bottom: 1px solid #000;
-        margin-bottom: 2px;
+        margin-bottom: 5px;
       }
 
       #for-as {
@@ -301,7 +311,7 @@
       /* Ensure printing uses A4 size */
       @page {
         size: A4 portrait;
-        margin: 0;
+        margin: 15mm;
       }
 
       @media print {
@@ -316,64 +326,27 @@
 
         .page-wrapper {
           padding: 0;
-          display: block;
         }
 
         .certificate {
-          width: 210mm; /* allow the page size to control final width */
-          height: 297mm;
-          padding: 15mm;
+          width: auto; /* allow the page size to control final width */
+          height: auto;
+          padding: 0;
           box-shadow: none;
           margin: 0;
-          box-sizing: border-box;
           page-break-after: always;
-          background: white;
-          overflow: visible;
         }
 
-        input[type="text"], textarea {
-          -webkit-print-color-adjust: exact;
+        /* Prevent inputs from being cut off and make them printable */
+        input,
+        textarea {
           print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
           color: #000;
           background: transparent;
           box-shadow: none;
-          border: none; /* reset */
-          border-bottom: 1px solid #000; /* keep underline for inputs */
-          -webkit-appearance: none;
-        }
-
-        textarea {
-          border: 1px solid #000;
-          background: transparent;
-        }
-
-        /* Make form groups flexible so widths adapt on A4 */
-        .form-group {
-          display: flex;
-          margin-bottom: 10px;
-          font-size: 12px;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .form-group label {
-          flex: 0 0 36%; /* label occupies ~36% of row */
-          max-width: 36%;
-          padding-left: 0;
-        }
-
-        .form-group input {
-          flex: 1 1 64%;
-          min-width: 40mm;
           border: none;
-          border-bottom: 1px solid #000;
-          padding: 2px 5px;
-          font-size: 14px;
-          font-weight: bold;
         }
-
-        /* Remove any on-screen-only decorations */
-        .certificate { box-shadow: none; }
       }
     </style>
   </head>
@@ -382,8 +355,8 @@
       <div class="certificate">
         <div class="header">
           <div class="form-number">
-            LCR Form No. 1A<br />
-            (BIRTH- Available)
+            LCR Form No. 2A<br />
+            (DEATH- Available)
           </div>
           <div>
             <img src="city-logo.png" alt="City Logo" width="80" />
@@ -406,8 +379,8 @@
         <div class="to-whom">TO WHOM IT MAY CONCERN:</div>
 
         <div class="certification-text">
-          WE CERTIFY that, among others, the following facts of Birth appearing
-          in our Register of Births on Page
+          WE CERTIFY that, among others, the following facts of Death appearing
+          in our Register of Deaths on Page
           <input type="text" class="book-number" id="pageNumber" /> of Book No.
           <input type="text" class="book-number" id="bookNumber" />
         </div>
@@ -425,9 +398,9 @@
         </div>
 
         <div class="form-group">
-          <label class="bold">NAME OF CHILD</label>
+          <label class="bold">NAME OF DECEASED</label>
           <span class="colon">:</span>
-          <input type="text" id="childName" />
+          <input type="text" id="deceasedName" />
         </div>
 
         <div class="form-group">
@@ -437,51 +410,39 @@
         </div>
 
         <div class="form-group">
-          <label>Date of Birth</label>
+          <label>Age</label>
           <span class="colon">:</span>
-          <input type="text" id="dateBirth" />
+          <input type="text" id="age" />
         </div>
 
         <div class="form-group">
-          <label>Place of Birth</label>
+          <label>Civil Status</label>
           <span class="colon">:</span>
-          <input type="text" id="placeBirth" />
-        </div>
-
-        <div class="form-group">
-          <label>Name of Mother</label>
-          <span class="colon">:</span>
-          <input type="text" id="motherName" />
+          <input type="text" id="civilStatus" />
         </div>
 
         <div class="form-group">
           <label>Nationality</label>
           <span class="colon">:</span>
-          <input type="text" id="motherNationality" />
+          <input type="text" id="nationality" />
         </div>
 
         <div class="form-group">
-          <label>Name of Father</label>
+          <label>Date of Death</label>
           <span class="colon">:</span>
-          <input type="text" id="fatherName" />
+          <input type="text" id="dateOfDeath" />
         </div>
 
         <div class="form-group">
-          <label>Nationality</label>
+          <label>Place of Death</label>
           <span class="colon">:</span>
-          <input type="text" id="fatherNationality" />
+          <input type="text" id="placeOfDeath" />
         </div>
 
         <div class="form-group">
-          <label>Date of Marriage of Parents</label>
+          <label>Cause of Death</label>
           <span class="colon">:</span>
-          <input type="text" id="marriageDate" />
-        </div>
-
-        <div class="form-group">
-          <label>Place of Marriage of Parents</label>
-          <span class="colon">:</span>
-          <input type="text" id="marriagePlace" />
+          <textarea id="causeOfDeath"></textarea>
         </div>
 
         <div class="issued-to">

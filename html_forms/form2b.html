@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Birth Certificate - Office of the City Civil Registrar</title>
+    <title>No Record of Death Certificate - Office of the City Civil Registrar</title>
     <style>
       * {
         margin: 0;
@@ -72,8 +72,9 @@
       }
 
       .date-field {
+        margin-top: 50px;
         text-align: right;
-        margin-bottom: 20px;
+        margin-bottom: 100px;
         font-size: 12px;
       }
 
@@ -90,51 +91,37 @@
       }
 
       .certification-text {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
         font-size: 12px;
         line-height: 1.9;
         text-indent: 5em;
         word-spacing: 2px;
+        text-align: justify;
+        hyphens: auto;
       }
 
-      .book-number {
+      .deceased-name,
+      .date-death,
+      .year {
         /* display: inline-block; */
         border: none;
         border-bottom: 1px solid #000;
-        min-width: 100px;
         padding: 2px 5px;
         font-size: 14px;
         text-align: center;
         font-weight: bold;
       }
 
-      .form-group {
-        display: flex;
-        margin-bottom: 10px;
-        font-size: 12px;
-        align-items: center;
-        padding-left: 5em;
+      .deceased-name {
+        width: 300px;
       }
 
-      .form-group label {
+      .date-death {
         width: 200px;
       }
 
-      .bold {
-        font-weight: bold;
-      }
-
-      .form-group .colon {
-        margin: 0 10px;
-      }
-
-      .form-group input {
-        width: 300px;
-        border: none;
-        border-bottom: 1px solid #000;
-        padding: 2px 5px;
-        font-size: 14px;
-        font-weight: bold;
+      .year {
+        width: 100px;
       }
 
       .issued-to {
@@ -144,46 +131,25 @@
         text-indent: 5em;
         word-spacing: 2px;
         line-height: 1.9;
+        text-align: justify;
       }
 
       .issued-to input {
         border: none;
         border-bottom: 1px solid #000;
-        width: 300px;
+        width: 250px;
         margin: 0 5px;
-        font-weight: bold;
         font-size: 14px;
-        text-align: center;
-      }
-
-      .remarks {
-        margin-bottom: -20px;
-        font-size: 12px;
-      }
-
-      .remarks-label {
         font-weight: bold;
-        text-decoration: underline;
-        margin-bottom: 10px;
-      }
-
-      .remarks textarea {
-        width: 100%;
-        min-height: 100px;
-        max-height: 100px;
-        border: 1px solid #ccc;
-        padding: 5px;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        overflow: hidden;
-        resize: none;
+        text-align: center;
       }
 
       .signature-section {
         display: flex;
         justify-content: space-between;
-        margin-top: 15mm;
+        margin-top: 12dvh;
         margin-bottom: 30px;
+        height: 200px;
       }
 
       .verified-by,
@@ -200,10 +166,15 @@
         font-weight: bold;
       }
 
+      .verified-by {
+        align-self: flex-end;
+      }
+
       .registrar {
         display: flex;
         flex-direction: column;
         align-items: center;
+        align-self: flex-start;
         margin-right: 100px;
       }
 
@@ -246,13 +217,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: -10px;
       }
 
       .office-order input {
         border: none;
         border-bottom: 1px solid #000;
-        margin-bottom: 2px;
+        margin-bottom: 5px;
       }
 
       #for-as {
@@ -260,7 +230,7 @@
         font-size: 12px;
         font-weight: bold;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
       }
 
       #in-charge {
@@ -269,7 +239,7 @@
         text-align: center;
         font-weight: bold;
       }
-
+      
       #designation {
         width: 200px;
         font-size: 12px;
@@ -283,7 +253,7 @@
       }
 
       .note {
-        margin-top: 10px;
+        margin-top: 30px;
         padding-bottom: 5px;
         border-bottom: 2px solid #000;
         font-size: 11px;
@@ -301,7 +271,7 @@
       /* Ensure printing uses A4 size */
       @page {
         size: A4 portrait;
-        margin: 0;
+        margin: 15mm;
       }
 
       @media print {
@@ -316,64 +286,27 @@
 
         .page-wrapper {
           padding: 0;
-          display: block;
         }
 
         .certificate {
-          width: 210mm; /* allow the page size to control final width */
-          height: 297mm;
-          padding: 15mm;
+          width: auto; /* allow the page size to control final width */
+          height: auto;
+          padding: 0;
           box-shadow: none;
           margin: 0;
-          box-sizing: border-box;
           page-break-after: always;
-          background: white;
-          overflow: visible;
         }
 
-        input[type="text"], textarea {
-          -webkit-print-color-adjust: exact;
+        /* Prevent inputs from being cut off and make them printable */
+        input,
+        textarea {
           print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
           color: #000;
           background: transparent;
           box-shadow: none;
-          border: none; /* reset */
-          border-bottom: 1px solid #000; /* keep underline for inputs */
-          -webkit-appearance: none;
-        }
-
-        textarea {
-          border: 1px solid #000;
-          background: transparent;
-        }
-
-        /* Make form groups flexible so widths adapt on A4 */
-        .form-group {
-          display: flex;
-          margin-bottom: 10px;
-          font-size: 12px;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .form-group label {
-          flex: 0 0 36%; /* label occupies ~36% of row */
-          max-width: 36%;
-          padding-left: 0;
-        }
-
-        .form-group input {
-          flex: 1 1 64%;
-          min-width: 40mm;
           border: none;
-          border-bottom: 1px solid #000;
-          padding: 2px 5px;
-          font-size: 14px;
-          font-weight: bold;
         }
-
-        /* Remove any on-screen-only decorations */
-        .certificate { box-shadow: none; }
       }
     </style>
   </head>
@@ -382,8 +315,8 @@
       <div class="certificate">
         <div class="header">
           <div class="form-number">
-            LCR Form No. 1A<br />
-            (BIRTH- Available)
+            LCR Form No. 2B<br />
+            (DEATH- Not Available)
           </div>
           <div>
             <img src="city-logo.png" alt="City Logo" width="80" />
@@ -406,102 +339,30 @@
         <div class="to-whom">TO WHOM IT MAY CONCERN:</div>
 
         <div class="certification-text">
-          WE CERTIFY that, among others, the following facts of Birth appearing
-          in our Register of Births on Page
-          <input type="text" class="book-number" id="pageNumber" /> of Book No.
-          <input type="text" class="book-number" id="bookNumber" />
+          WE CERTIFY, that this office has no record of death of 
+          <input type="text" class="deceased-name" id="deceasedName" /> who allegedly have died on 
+          <input type="text" class="date-death" id="dateDeath" /> in this city. Hence, we cannot issue as requested a true copy of his/her Certificate of Death or transcription from the Register of Deaths.
         </div>
 
-        <div class="form-group">
-          <label>LCR Registry Number</label>
-          <span class="colon">:</span>
-          <input type="text" id="lcrNumber" />
-        </div>
-
-        <div class="form-group">
-          <label>Date of Registration</label>
-          <span class="colon">:</span>
-          <input type="text" id="dateRegistration" />
-        </div>
-
-        <div class="form-group">
-          <label class="bold">NAME OF CHILD</label>
-          <span class="colon">:</span>
-          <input type="text" id="childName" />
-        </div>
-
-        <div class="form-group">
-          <label>Sex</label>
-          <span class="colon">:</span>
-          <input type="text" id="sex" />
-        </div>
-
-        <div class="form-group">
-          <label>Date of Birth</label>
-          <span class="colon">:</span>
-          <input type="text" id="dateBirth" />
-        </div>
-
-        <div class="form-group">
-          <label>Place of Birth</label>
-          <span class="colon">:</span>
-          <input type="text" id="placeBirth" />
-        </div>
-
-        <div class="form-group">
-          <label>Name of Mother</label>
-          <span class="colon">:</span>
-          <input type="text" id="motherName" />
-        </div>
-
-        <div class="form-group">
-          <label>Nationality</label>
-          <span class="colon">:</span>
-          <input type="text" id="motherNationality" />
-        </div>
-
-        <div class="form-group">
-          <label>Name of Father</label>
-          <span class="colon">:</span>
-          <input type="text" id="fatherName" />
-        </div>
-
-        <div class="form-group">
-          <label>Nationality</label>
-          <span class="colon">:</span>
-          <input type="text" id="fatherNationality" />
-        </div>
-
-        <div class="form-group">
-          <label>Date of Marriage of Parents</label>
-          <span class="colon">:</span>
-          <input type="text" id="marriageDate" />
-        </div>
-
-        <div class="form-group">
-          <label>Place of Marriage of Parents</label>
-          <span class="colon">:</span>
-          <input type="text" id="marriagePlace" />
+        <div class="certification-text">
+          WE also certify, that the records of deaths for the year 
+          <input type="text" class="year" id="year" /> are still intact in the archives of this office. 
         </div>
 
         <div class="issued-to">
           <i>THIS CERTIFICATION</i> is issued to
-          <input type="text" id="issuedTo" /> upon<br />
+          <input type="text" id="issuedTo" /> upon
           his/ her request.
         </div>
-
-        <div class="remarks">
-          <div class="remarks-label">REMARKS:</div>
-          <textarea id="remarks"></textarea>
-        </div>
-
+    
         <div class="signature-section">
           <div class="verified-by">
             VERIFIED BY: <input type="text" id="verifiedBy" />
           </div>
+
           <div class="registrar">
-            <div class="registrar-name">JENNY F. ANG</div>
-            <div>City Civil Registrar</div>
+              <div class="registrar-name">JENNY F. ANG</div>
+              <div>City Civil Registrar</div>
           </div>
         </div>
 
@@ -542,7 +403,7 @@
       </div>
     </div>
 
-    <script>
+    <!-- <script>
       const remarksTextarea = document.getElementById('remarks');
       const MIN_FONT_SIZE = 8; // Minimum font size in px
       const MAX_FONT_SIZE = 12; // Maximum font size in px
@@ -569,6 +430,6 @@
 
       // Also adjust on page load in case there's pre-filled content
       window.addEventListener('load', adjustFontSize);
-    </script>
+    </script> -->
   </body>
 </html>
