@@ -321,7 +321,7 @@
       /* Ensure printing uses A4 size */
       @page {
         size: A4 portrait;
-        margin: 15mm;
+        margin: 0;
       }
 
       @media print {
@@ -336,27 +336,70 @@
 
         .page-wrapper {
           padding: 0;
+          display: block;
         }
 
         .certificate {
-          width: auto; /* allow the page size to control final width */
-          height: auto;
-          padding: 0;
+          width: 210mm; /* allow the page size to control final width */
+          height: 297mm;
+          padding: 15mm;
           box-shadow: none;
           margin: 0;
+          box-sizing: border-box;
           page-break-after: always;
+          background: white;
+          overflow: visible;
         }
 
-        /* Prevent inputs from being cut off and make them printable */
-        input,
-        textarea {
-          print-color-adjust: exact;
+        input[type="text"], textarea {
           -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
           color: #000;
           background: transparent;
           box-shadow: none;
-          border: none;
+          border: none; /* reset */
+          border-bottom: 1px solid #000; /* keep underline for inputs */
+          -webkit-appearance: none;
         }
+
+        textarea {
+          border: 1px solid #000;
+          background: transparent;
+        }
+
+        /* Make form groups flexible so widths adapt on A4 */
+        .form-group {
+          display: flex;
+          margin-bottom: 10px;
+          font-size: 12px;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .form-group label {
+          flex: 0 0 auto; /* label occupies ~36% of row */
+          width: 150px;
+          padding-left: 0;
+        }
+
+        .form-group input {
+          flex: 0 0 auto;
+          width: 425px;
+          border: none;
+          border-bottom: 1px solid #000;
+          padding: 2px 5px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .adjacent-inputs input {
+          flex: 0 0 auto;
+          width: 210px;
+          text-align: center;
+        }
+
+        /* Remove any on-screen-only decorations */
+        .certificate { box-shadow: none; }
       }
     </style>
   </head>
