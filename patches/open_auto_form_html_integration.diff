@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Update File: c:\ayie\PROJECTS\LGU\RVS APP\RVS dev\verify.py
+@@
+-from auto_form import *
++from auto_form import *
++# New HTML renderer used for external-browser previews
++from html_renderer import render_html_form
+@@
+-            # Instead of opening the PDF directly, open the custom preview window
+-            self.form_preview_window = FormPreviewWindow(normalized_path, record_dict, form_type, connection=conn, username=self.current_user, parent=self)
+-            self.form_preview_window.show()
+-            self.form_preview_window.raise_()
+-            self.form_preview_window.activateWindow()
+-
+-            # Remove duplicate logging since it's now handled in FormPreviewWindow
+-            conn.commit()
++            # Instead of using the in-app FormPreviewWindow, render an HTML
++            # preview and open it in the user's external browser.
++            # `render_html_form` will return a path to a temporary HTML file.
++            html_path = render_html_form(record_dict, form_type)
++
++            # Log that an HTML preview was generated and opened.
++            AuditLogger.log_action(
++                conn,
++                self.current_user,
++                "FORM_HTML_PREVIEW",
++                {"form_type": form_type, "path": html_path}
++            )
++            conn.commit()
++
++            # Close DB resources before launching external browser.
++            if cursor:
++                cursor.close()
++                cursor = None
++            self.closeConnection()
++
++            # Open the rendered HTML in the default external browser.
++            try:
++                import webbrowser
++                from pathlib import Path
++                webbrowser.open(Path(html_path).as_uri())
++            except Exception as _open_err:
++                # If opening the browser fails, show a message box but do not
++                # re-open database connections here.
++                box = QMessageBox(self)
++                box.setIcon(QMessageBox.Warning)
++                box.setWindowTitle("Warning")
++                box.setText(f"Rendered form saved to: {html_path}\nFailed to open browser: {_open_err}")
++                box.setStandardButtons(QMessageBox.Ok)
++                box.setStyleSheet(message_box_style)
++                box.exec()
+*** End Patch

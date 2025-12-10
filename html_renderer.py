@@ -26,6 +26,15 @@ try:
 except Exception:
     _HAS_JINJA = False
 
+# Import the field mapping helper to build template contexts
+try:
+    from html_field_map import build_template_context
+except Exception:
+    # If the mapping module is missing, provide a fallback that returns
+    # the original record so rendering can still proceed (best-effort).
+    def build_template_context(record, form_type):
+        return {} if record is None else record
+
 
 def _default_templates_dir() -> Path:
     # Prefer a `templates/` directory next to the project root; fallback to `html_forms/`.
@@ -38,7 +47,7 @@ def _default_templates_dir() -> Path:
     return base / 'templates'
 
 
-def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[str] = None, use_tempfile: bool = True) -> str:
+def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[str] = None, use_tempfile: bool = True, current_user: str = '', today_date: str = '') -> str:
     """Render a record into HTML and return a file path.
 
     Parameters
@@ -46,6 +55,8 @@ def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[
     - form_type: one of 'Birth', 'Death', 'Marriage' (used to choose template)
     - templates_dir: optional path to templates; defaults to `templates/` or `html_forms/`
     - use_tempfile: if True, writes rendered HTML to a temporary file and returns its path
+    - current_user: username to populate in 'verified_by' field (optional)
+    - today_date: ISO date string (YYYY-MM-DD) for 'certificate_date' and 'date_paid' (optional)
 
     Returns: path to the rendered HTML file (string). If `use_tempfile` is False,
     returns the raw HTML as a string (caller must handle it).
@@ -55,7 +66,20 @@ def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[
       `webbrowser.open(file_path)` to display the result.
     """
     templates_path = Path(templates_dir) if templates_dir else _default_templates_dir()
-    template_name = f"{form_type.lower()}.html"
+    # Map logical form types to the actual template filenames in `templates/`.
+    form_map = {
+        'birth': 'form1a.html',
+        'death': 'form2a.html',
+        'marriage': 'form3a.html'
+    }
+    template_name = form_map.get(form_type.strip().lower(), f"{form_type.lower()}.html")
+
+    # Build a template context using our field mapping helper so templates
+    # receive variables with the names used in `templates/*.html`.
+    try:
+        context = build_template_context(record_dict or {}, form_type, current_user=current_user, today_date=today_date)
+    except Exception:
+        context = {} if record_dict is None else record_dict
 
     # If Jinja2 is available and template exists, use it
     if _HAS_JINJA and (templates_path / template_name).exists():
@@ -64,7 +88,7 @@ def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[
             autoescape=select_autoescape(['html', 'xml'])
         )
         template = env.get_template(template_name)
-        rendered = template.render(**record_dict)
+        rendered = template.render(**context)
     else:
         # Fallback: attempt to load raw template and perform simple replacement
         tpl_path = templates_path / template_name
@@ -73,14 +97,14 @@ def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[
             # Simple placeholder format: {{ key }} or {key}
             # First try Jinja-style removal of braces for naive replace
             rendered = raw
-            for k, v in record_dict.items():
+            for k, v in context.items():
                 placeholder_jinja = f"{{{{ {k} }}}}"
                 placeholder_curly = f"{{{k}}}"
                 rendered = rendered.replace(placeholder_jinja, str(v or ''))
                 rendered = rendered.replace(placeholder_curly, str(v or ''))
         else:
             # No template found — create a minimal HTML to show key-values
-            items = [f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in record_dict.items()]
+            items = [f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in context.items()]
             rendered = f"<html><head><meta charset=\"utf-8\"><title>{form_type} Form</title></head>\n"
             rendered += "<body><h1>{}</h1><table>{}</table></body></html>".format(form_type, '\n'.join(items))
 

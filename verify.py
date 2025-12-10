@@ -21,6 +21,7 @@ from Search_Marriage_Window import Ui_SearchMarriageWindow
 
 from auto_form import *
 from audit_logger import AuditLogger
+from html_renderer import render_html_form
 from db_config import POSTGRES_CONFIG
 
 from stylesheets import search_button_style, everify_button_style, button_style, message_box_style
@@ -387,14 +388,43 @@ class VerifyWindowBase(QMainWindow):
                 box.exec()
                 return
             
-            # Instead of opening the PDF directly, open the custom preview window
-            self.form_preview_window = FormPreviewWindow(normalized_path, record_dict, form_type, connection=conn, username=self.current_user, parent=self)
-            self.form_preview_window.show()
-            self.form_preview_window.raise_()
-            self.form_preview_window.activateWindow()
+            # Instead of using the in-app FormPreviewWindow, render an HTML
+            # preview and open it in the user's external browser.
+            # `render_html_form` will return a path to a temporary HTML file.
+            from datetime import date
+            today = date.today().isoformat()  # Format: YYYY-MM-DD
+            html_path = render_html_form(record_dict, form_type, current_user=self.current_user, today_date=today)
 
-            # Remove duplicate logging since it's now handled in FormPreviewWindow
+            # Log that an HTML preview was generated and opened.
+            AuditLogger.log_action(
+                conn,
+                self.current_user,
+                "FORM_HTML_PREVIEW",
+                {"form_type": form_type, "path": html_path}
+            )
             conn.commit()
+
+            # Close DB resources before launching external browser.
+            if cursor:
+                cursor.close()
+                cursor = None
+            self.closeConnection()
+
+            # Open the rendered HTML in the default external browser.
+            try:
+                import webbrowser
+                from pathlib import Path
+                webbrowser.open(Path(html_path).as_uri())
+            except Exception as _open_err:
+                # If opening the browser fails, show a message box but do not
+                # re-open database connections here.
+                box = QMessageBox(self)
+                box.setIcon(QMessageBox.Warning)
+                box.setWindowTitle("Warning")
+                box.setText(f"Rendered form saved to: {html_path}\nFailed to open browser: {_open_err}")
+                box.setStandardButtons(QMessageBox.Ok)
+                box.setStyleSheet(message_box_style)
+                box.exec()
 
         except Exception as e:
             print(f"Error in open_form_file: {str(e)}")

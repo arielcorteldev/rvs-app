@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Destroyed Record of Death Certificate - Office of the City Civil Registrar</title>
+    <title>Marriage Certificate - Office of the City Civil Registrar</title>
     <style>
       * {
         margin: 0;
@@ -72,9 +72,8 @@
       }
 
       .date-field {
-        margin-top: 50px;
         text-align: right;
-        margin-bottom: 70px;
+        margin-bottom: 20px;
         font-size: 12px;
       }
 
@@ -92,37 +91,72 @@
       }
 
       .certification-text {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         font-size: 12px;
         line-height: 1.9;
         text-indent: 5em;
         word-spacing: 2px;
-        text-align: justify;
-        hyphens: auto;
       }
 
-      .deceased-name,
-      .date-death,
-      .year {
+      .book-number {
         /* display: inline-block; */
         border: none;
         border-bottom: 1px solid #000;
+        min-width: 100px;
         padding: 2px 5px;
         font-size: 14px;
         text-align: center;
         font-weight: bold;
       }
 
-      .deceased-name {
-        width: 250px;
+      .adjacent-label {
+        display: flex;
+        justify-content: center;
+        gap: 150px;
+        margin-bottom: 20px;
+        margin-left: 120px;
+        font-size: 14px;
+        text-decoration: underline;
       }
 
-      .date-death {
-        width: 200px;
+      .form-group {
+        display: flex;
+        margin-bottom: 10px;
+        font-size: 12px;
+        align-items: center;
+        padding-left: 2em;
       }
 
-      .year {
-        width: 100px;
+      .form-group label {
+        width: 150px;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+
+      .form-group .colon {
+        margin: 0 10px;
+      }
+
+      .form-group input {
+        width: 425px;
+        border: none;
+        border-bottom: 1px solid #000;
+        padding: 2px 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .adjacent-inputs {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+      }
+
+      .adjacent-inputs input {
+        width: 210px;
+        text-align: center;
       }
 
       .issued-to {
@@ -132,25 +166,46 @@
         text-indent: 5em;
         word-spacing: 2px;
         line-height: 1.9;
-        text-align: justify;
       }
 
       .issued-to input {
         border: none;
         border-bottom: 1px solid #000;
-        width: 250px;
+        width: 300px;
         margin: 0 5px;
-        font-size: 14px;
         font-weight: bold;
+        font-size: 14px;
         text-align: center;
+      }
+
+      .remarks {
+        margin-bottom: -20px;
+        font-size: 12px;
+      }
+
+      .remarks-label {
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 10px;
+      }
+
+      .remarks textarea {
+        width: 100%;
+        min-height: 100px;
+        max-height: 100px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        overflow: hidden;
+        resize: none;
       }
 
       .signature-section {
         display: flex;
         justify-content: space-between;
-        margin-top: 10dvh;
+        margin-top: 5dvh;
         margin-bottom: 30px;
-        height: 150px;
       }
 
       .verified-by,
@@ -167,15 +222,10 @@
         font-weight: bold;
       }
 
-      .verified-by {
-        align-self: flex-end;
-      }
-
       .registrar {
         display: flex;
         flex-direction: column;
         align-items: center;
-        align-self: flex-start;
         margin-right: 100px;
       }
 
@@ -232,7 +282,7 @@
         font-size: 12px;
         font-weight: bold;
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
       }
 
       #in-charge {
@@ -241,7 +291,7 @@
         text-align: center;
         font-weight: bold;
       }
-      
+
       #designation {
         width: 200px;
         font-size: 12px;
@@ -255,7 +305,7 @@
       }
 
       .note {
-        margin-top: 30px;
+        margin-top: 10px;
         padding-bottom: 5px;
         border-bottom: 2px solid #000;
         font-size: 11px;
@@ -303,7 +353,7 @@
           overflow: visible;
         }
 
-        input[type="text"] {
+        input[type="text"], textarea {
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
           color: #000;
@@ -312,6 +362,42 @@
           border: none; /* reset */
           border-bottom: 1px solid #000; /* keep underline for inputs */
           -webkit-appearance: none;
+        }
+
+        textarea {
+          border: 1px solid #000;
+          background: transparent;
+        }
+
+        /* Make form groups flexible so widths adapt on A4 */
+        .form-group {
+          display: flex;
+          margin-bottom: 10px;
+          font-size: 12px;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .form-group label {
+          flex: 0 0 auto; /* label occupies ~36% of row */
+          width: 150px;
+          padding-left: 0;
+        }
+
+        .form-group input {
+          flex: 0 0 auto;
+          width: 425px;
+          border: none;
+          border-bottom: 1px solid #000;
+          padding: 2px 5px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .adjacent-inputs input {
+          flex: 0 0 auto;
+          width: 210px;
+          text-align: center;
         }
 
         /* Remove any on-screen-only decorations */
@@ -324,8 +410,8 @@
       <div class="certificate">
         <div class="header">
           <div class="form-number">
-            LCR Form No. 2C<br />
-            (DEATH- Destroyed)
+            LCR Form No. 3A<br />
+            (MARRIAGE- Available)
           </div>
           <div>
             <img src="city-logo.png" alt="City Logo" width="80" />
@@ -342,33 +428,119 @@
         </div>
 
         <div class="date-field">
-          DATE: <input type="text" id="certificateDate" />
+          DATE: <input type="text" id="certificateDate" value="{{ certificate_date or '' }}" />
         </div>
 
         <div class="to-whom">TO WHOM IT MAY CONCERN:</div>
 
         <div class="certification-text">
-          WE CERTIFY, that the records of deaths filed in the archives of this office includes those, which were registered from <strong>1949 to PRESENT</strong>. However, the records of deaths during the period <strong>1948 to YEARS BELOW</strong> were totally destroyed by the <strong><u>JAPANESE OCCUPATION</u></strong>. Hence, we cannot issue as requested a true transcription from the Register of Deaths or true copy of the Certificate of Death of <input type="text" class="deceased-name" id="deceasedName" /> who is alleged to have died on 
-          <input type="text" class="date-death" id="dateDeath" /> in this city.
+          WE CERTIFY that, among others, the following facts of Marriage appearing
+          in our Register of Marriages on Page
+          <input type="text" class="book-number" id="pageNumber" value="{{ page_no or '' }}" /> of Book No.
+          <input type="text" class="book-number" id="bookNumber" value="{{ book_no or '' }}" />
         </div>
 
-        <div class="certification-text">
-          WE also certify, that for every registered death, this office submits a copy of the Certificate of Death to the Office of the Civil Registrar General, Philippine Statistics Authority in Manila. In view of this, the interested party is hereby advised to make further verification in the archives of that office.
+        <div class="adjacent-label">
+          <strong>HUSBAND</strong>
+          <strong>WIFE</strong>
+        </div>
+
+        <div class="form-group">
+          <label>NAME</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandName" value="{{ husband_name or '' }}" />
+            <input type="text" id="wifeName" value="{{ wife_name or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Age</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandAge" value="{{ husband_age or '' }}" />
+            <input type="text" id="wifeAge" value="{{ wife_age or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Citizenship</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandCitizenship" value="{{ husb_nationality or '' }}" />
+            <input type="text" id="wifeCitizenship" value="{{ wife_nationality or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Civil Status</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandCivilStatus" value="{{ husb_civil_status or '' }}" />
+            <input type="text" id="wifeCivilStatus" value="{{ wife_civil_status or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mother</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandMother" value="{{ husb_mother or '' }}" />
+            <input type="text" id="wifeMother" value="{{ wife_mother or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Father</label>
+          <span class="colon">:</span>
+          <div class="adjacent-inputs">
+            <input type="text" id="husbandFather" value="{{ husb_father or '' }}" />
+            <input type="text" id="wifeFather" value="{{ wife_father or '' }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Registry Number</label>
+          <span class="colon">:</span>
+          <input type="text" id="lcrNumber" value="{{ reg_no or '' }}" />
+        </div>
+
+        <div class="form-group">
+          <label>Date of Registration</label>
+          <span class="colon">:</span>
+          <input type="text" id="dateRegistration" value="{{ date_of_reg or '' }}" />
+        </div>
+
+        <div class="form-group">
+          <label>Date of Marriage</label>
+          <span class="colon">:</span>
+          <input type="text" id="dateMarriage" value="{{ date_of_marriage or '' }}" />
+        </div>
+
+        <div class="form-group">
+          <label>Place of Marriage</label>
+          <span class="colon">:</span>
+          <input type="text" id="placeMarriage" value="{{ place_of_marriage or '' }}" />
         </div>
 
         <div class="issued-to">
           <i>THIS CERTIFICATION</i> is issued to
-          <input type="text" id="issuedTo" /> upon his/ her request.
+          <input type="text" id="issuedTo" value="{{ issued_to or '' }}" /> upon<br />
+          his/ her request.
         </div>
-    
+
+        <div class="remarks">
+          <div class="remarks-label">REMARKS:</div>
+          <textarea id="remarks">{{ remarks or '' }}</textarea>
+        </div>
+
         <div class="signature-section">
           <div class="verified-by">
-            VERIFIED BY: <input type="text" id="verifiedBy" />
+            VERIFIED BY: <input type="text" id="verifiedBy" value="{{ verified_by or '' }}" />
           </div>
-
           <div class="registrar">
-              <div class="registrar-name">JENNY F. ANG</div>
-              <div>City Civil Registrar</div>
+            <div class="registrar-name">JENNY F. ANG</div>
+            <div>City Civil Registrar</div>
           </div>
         </div>
 
@@ -376,22 +548,22 @@
           <div class="payment-info">
             <div class="info-line">
               <label>Amount Paid</label>
-              <input type="text" id="amountPaid" />
+              <input type="text" id="amountPaid" value="{{ amount_paid or '' }}" />
             </div>
             <div class="info-line">
               <label>O.R. Number</label>
-              <input type="text" id="orNumber" />
+              <input type="text" id="orNumber" value="{{ or_number or '' }}" />
             </div>
             <div class="info-line">
               <label>Date Paid</label>
-              <input type="text" id="datePaid" />
+              <input type="text" id="datePaid" value="{{ date_paid or '' }}" />
             </div>
           </div>
           <div class="office-order">
-            <input type="text" id="for-as" />
-            <input type="text" id="in-charge" />
-            <input type="text" id="designation" />
-            <input type="text" id="order-details" />
+            <input type="text" id="for-as" value="{{ for_as or '' }}" />
+            <input type="text" id="in-charge" value="{{ in_charge or '' }}" />
+            <input type="text" id="designation" value="{{ designation or '' }}" />
+            <input type="text" id="order-details" value="{{ order_details or '' }}" />
           </div>
         </div>
 
@@ -409,7 +581,7 @@
       </div>
     </div>
 
-    <!-- <script>
+    <script>
       const remarksTextarea = document.getElementById('remarks');
       const MIN_FONT_SIZE = 8; // Minimum font size in px
       const MAX_FONT_SIZE = 12; // Maximum font size in px
@@ -436,6 +608,7 @@
 
       // Also adjust on page load in case there's pre-filled content
       window.addEventListener('load', adjustFontSize);
-    </script> -->
+    </script>
   </body>
 </html>
+
