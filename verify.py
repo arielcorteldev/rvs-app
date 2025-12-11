@@ -36,6 +36,8 @@ class VerifyWindowBase(QMainWindow):
         # print(f"DEBUG - VerifyWindowBase received username: {username}")
         self.current_user = username
         self.main_window = main_window
+        # Get full name from main_window if available, otherwise use username as fallback
+        self.current_user_full_name = getattr(main_window, 'current_user_full_name', username) if main_window else username
 
         # Add database connection method
         self.connection = None
@@ -393,7 +395,7 @@ class VerifyWindowBase(QMainWindow):
             # `render_html_form` will return a path to a temporary HTML file.
             from datetime import date
             today = date.today().isoformat()  # Format: YYYY-MM-DD
-            html_path = render_html_form(record_dict, form_type, current_user=self.current_user, today_date=today)
+            html_path = render_html_form(record_dict, form_type, current_user=self.current_user_full_name, today_date=today)
 
             # Log that an HTML preview was generated and opened.
             AuditLogger.log_action(
@@ -1013,12 +1015,12 @@ class VerifyWindowBase(QMainWindow):
 # Subclasses for each document type
 class VerifyBirthWindow(VerifyWindowBase):
     def __init__(self, username, parent=None, main_window=None):
-        super().__init__(Ui_SearchBirthWindow, r"\\server\MCR\LIVE BIRTH", r'forms\FORM 1-A.pdf', r'forms\NO RECORD OF LIVE BIRTH.pdf', r'forms\DESTROYED - LIVE BIRTH.pdf', username, parent, main_window)
+        super().__init__(Ui_SearchBirthWindow, r"\\server\MCR\LIVE BIRTH", r'html_forms\form1a.html', r'html_forms\form1b.html', r'html_forms\form1c.html', username, parent, main_window)
 
 class VerifyDeathWindow(VerifyWindowBase):
     def __init__(self, username, parent=None, main_window=None):
-        super().__init__(Ui_SearchDeathWindow, r"\\server\MCR\DEATH", r'forms\FORM 2-A.pdf', r'forms\NO RECORD OF DEATH.pdf', r'forms\DESTROYED - DEATH.pdf', username, parent, main_window)
+        super().__init__(Ui_SearchDeathWindow, r"\\server\MCR\DEATH", r'html_forms\form2a.html', r'html_forms\form2b.html', r'html_forms\form2c.html', username, parent, main_window)
 
 class VerifyMarriageWindow(VerifyWindowBase):
     def __init__(self, username, parent=None, main_window=None):
-        super().__init__(Ui_SearchMarriageWindow, r"\\server\MCR\MARRIAGE", r'forms\FORM 3-A.pdf', r'forms\NO RECORD OF MARRIAGE.pdf', r'forms\DESTROYED - MARRIAGE.pdf', username, parent, main_window)
+        super().__init__(Ui_SearchMarriageWindow, r"\\server\MCR\MARRIAGE", r'html_forms\form3a.html', r'html_forms\form3b.html', r'html_forms\form3c.html', username, parent, main_window)

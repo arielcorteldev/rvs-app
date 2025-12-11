@@ -80,6 +80,20 @@ def render_html_form(record_dict: dict, form_type: str, templates_dir: Optional[
         context = build_template_context(record_dict or {}, form_type, current_user=current_user, today_date=today_date)
     except Exception:
         context = {} if record_dict is None else record_dict
+    
+    # Add absolute paths for logo images so they can be found when HTML is opened as file://
+    # Resolve the project root directory (parent of this script)
+    project_root = Path(__file__).resolve().parent
+    logos_dir = project_root / 'logos'
+    
+    # Add image paths to context as file:// URIs so they work in the browser
+    if logos_dir.exists():
+        context['city_logo_path'] = (logos_dir / 'city-logo.png').as_uri()
+        context['occr_logo_path'] = (logos_dir / 'occr-logo.png').as_uri()
+    else:
+        # Fallback to relative paths if logos dir not found
+        context['city_logo_path'] = '../logos/city-logo.png'
+        context['occr_logo_path'] = '../logos/occr-logo.png'
 
     # If Jinja2 is available and template exists, use it
     if _HAS_JINJA and (templates_path / template_name).exists():

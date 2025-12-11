@@ -42,8 +42,8 @@ basedir = os.path.dirname(__file__)
 
 # Login Dialog
 class Login(QDialog, Ui_Login_Dialog):
-    # Add a custom signal to emit the username on success
-    login_success = Signal(str)
+    # Add a custom signal to emit the user info (username and full name) on success
+    login_success = Signal(str, str)  # username, full_name
 
     def __init__(self):
         super().__init__()
@@ -136,15 +136,18 @@ class Login(QDialog, Ui_Login_Dialog):
                 
             cursor = conn.cursor()
             
-            # Check credentials
+            # Check credentials and fetch user info
             cursor.execute(
-                "SELECT username FROM users_list WHERE username = %s AND password = %s",
+                "SELECT username, firstname, lastname FROM users_list WHERE username = %s AND password = %s",
                 (username, password)
             )
             
             user = cursor.fetchone()
             
             if user:
+                username, firstname, lastname = user
+                full_name = f"{firstname} {lastname}".strip()
+                
                 box = QMessageBox(self)
                 box.setIcon(QMessageBox.Information)
                 box.setWindowTitle("Success")
@@ -153,7 +156,7 @@ class Login(QDialog, Ui_Login_Dialog):
 
                 box.setStyleSheet(message_box_style)
                 box.exec()
-                self.login_success.emit(username)
+                self.login_success.emit(username, full_name)
                 AuditLogger.log_action(
                     conn,
                     username,
@@ -861,11 +864,12 @@ class MainWindow(QMainWindow):
             self.connection = None
 
     # log current user
-    def set_current_user(self, username):
+    def set_current_user(self, username, full_name):
         conn = self.create_connection()
         try:
-            print(f"Logging action: user={username}")
+            print(f"Logging action: user={username}, full_name={full_name}")
             self.current_user = username
+            self.current_user_full_name = full_name  # Store full name
             AuditLogger.log_action(
                 conn,
                 username,

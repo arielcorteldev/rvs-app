@@ -8,7 +8,7 @@
 
 ## Overview
 
-Successfully migrated the form preview workflow from an in-app Qt widget (`FormPreviewWindow`) to external browser-based HTML previews using Jinja2 templating. This eliminates the need for embedding a web engine in the desktop application while providing a modern, editable interface.
+Successfully migrated the form preview workflow from an in-app Qt widget (`FormPreviewWindow`) to external browser-based HTML previews using Jinja2 templating. This eliminates the need for embedding a web engine in the desktop application while providing a modern, editable interface with properly loaded images.
 
 ---
 
@@ -24,17 +24,22 @@ Successfully migrated the form preview workflow from an in-app Qt widget (`FormP
 - Users can modify any field before printing or saving
 - Textarea fields (remarks) support dynamic font sizing
 
-### 3. **Intelligent Date Formatting**
+### 5. **Intelligent Date Formatting**
 - All dates automatically formatted from ISO format (YYYY-MM-DD) to long format (e.g., "January 01, 1990")
 - Applies to all date fields: `date_of_birth`, `date_of_death`, `date_of_marriage`, `date_of_reg`, `parents_marriage_date`
 - Graceful fallback for invalid or missing dates
 
-### 4. **Auto-Populated Administrative Fields**
+### 6. **Auto-Populated Administrative Fields**
 - **`verified_by`**: Automatically populated with the current logged-in username
 - **`certificate_date`**: Automatically populated with today's date (formatted)
 - **`date_paid`**: Automatically populated with today's date (formatted)
 
-### 5. **Audit Logging**
+### 7. **Logo Images with Absolute Paths**
+- Logo images now load correctly using absolute `file://` URIs
+- Resolves issue where relative paths fail when HTML is opened from temp directory
+- Automatic path resolution from project root to `logos/` directory
+- Graceful fallback to relative paths if logos directory not found
+### 8. **Audit Logging**
 - New event type `FORM_HTML_PREVIEW` logged whenever a form is generated
 - Logs include: `form_type`, file `path`, and `username`
 - Maintains analytics and compliance tracking
@@ -248,6 +253,35 @@ Updated all three test functions to check for formatted date strings:
 ---
 
 ## Implementation Details
+
+### Logo Path Resolution
+
+The implementation includes intelligent logo path resolution:
+
+```python
+# Resolve the project root directory (parent of this script)
+project_root = Path(__file__).resolve().parent
+logos_dir = project_root / 'logos'
+
+# Add image paths to context as file:// URIs so they work in the browser
+if logos_dir.exists():
+    context['city_logo_path'] = (logos_dir / 'city-logo.png').as_uri()
+    context['occr_logo_path'] = (logos_dir / 'occr-logo.png').as_uri()
+else:
+    # Fallback to relative paths if logos dir not found
+    context['city_logo_path'] = '../logos/city-logo.png'
+    context['occr_logo_path'] = '../logos/occr-logo.png'
+```
+
+**Why this approach?**
+- Absolute paths guarantee logo location regardless of where temp file is stored
+- `file://` URI format works across all modern browsers
+- Jinja2 variables keep templates clean and maintainable
+- Fallback mechanism ensures robustness
+
+**Result:** Logos render as `file:///C:/path/to/logos/city-logo.png` (properly URL-encoded)
+
+---
 
 ### Date Formatting Logic
 ```python

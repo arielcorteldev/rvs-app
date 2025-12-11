@@ -84,6 +84,7 @@
         width: 200px;
         text-align: center;
         font-weight: bold;
+        height: 18px;
       }
 
       .to-whom {
@@ -112,6 +113,7 @@
         font-size: 14px;
         text-align: center;
         font-weight: bold;
+        height: 18px;
       }
 
       .husband-name,
@@ -145,6 +147,7 @@
         font-size: 14px;
         font-weight: bold;
         text-align: center;
+        height: 18px;
       }
 
       .signature-section {
@@ -225,8 +228,8 @@
 
       .office-order input {
         border: none;
-        border-bottom: 1px solid #000;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
+        background-color: hsl(345, 100%, 93%);
       }
 
       #for-as {
@@ -309,11 +312,32 @@
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
           color: #000;
-          background: transparent;
-          box-shadow: none;
-          border: none; /* reset */
+          background: transparent !important;
+          box-shadow: none !important;
           border-bottom: 1px solid #000; /* keep underline for inputs */
           -webkit-appearance: none;
+        }
+
+        /* Print-only: ensure office-order inputs are transparent and have no autofill decoration */
+        .office-order input {
+          background: transparent !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+
+        /* Reset autofill decorations when printing */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 1000px white inset !important;
+          box-shadow: 0 0 0 1000px white inset !important;
+          background-color: transparent !important;
+        }
+
+        input:-moz-autofill,
+        input:-moz-autofill-preview {
+          background-color: transparent !important;
         }
 
         /* Remove any on-screen-only decorations */
@@ -330,7 +354,7 @@
             (MARRIAGE- Destroyed)
           </div>
           <div>
-            <img src="city-logo.png" alt="City Logo" width="80" />
+            <img src="../logos/city-logo.png" alt="City Logo" width="80" />
           </div>
           <div>
             <h1>Republic of the Philippines</h1>
@@ -339,7 +363,7 @@
             <h1 class="office-title">OFFICE OF THE CITY CIVIL REGISTRAR</h1>
           </div>
           <div>
-            <img src="occr-logo.png" alt="City Logo" width="80" />
+            <img src="../logos/occr-logo.png" alt="City Logo" width="80" />
           </div>
         </div>
 
@@ -411,33 +435,55 @@
       </div>
     </div>
 
-    <!-- <script>
-      const remarksTextarea = document.getElementById('remarks');
+    <script>
       const MIN_FONT_SIZE = 8; // Minimum font size in px
       const MAX_FONT_SIZE = 12; // Maximum font size in px
       const MAX_HEIGHT = 100; // Max height in px
 
-      function adjustFontSize() {
+      function adjustFontSize(element) {
         let fontSize = MAX_FONT_SIZE;
-        remarksTextarea.style.fontSize = fontSize + 'px';
+        element.style.fontSize = fontSize + 'px';
 
-        // Reduce font size until content fits or reaches minimum
-        while (remarksTextarea.scrollHeight > MAX_HEIGHT && fontSize > MIN_FONT_SIZE) {
-          fontSize -= 0.5;
-          remarksTextarea.style.fontSize = fontSize + 'px';
-        }
+        // For textareas, check scrollHeight; for inputs, use a simpler approach
+        if (element.tagName === 'TEXTAREA') {
+          // Reduce font size until content fits or reaches minimum
+          while (element.scrollHeight > MAX_HEIGHT && fontSize > MIN_FONT_SIZE) {
+            fontSize -= 0.5;
+            element.style.fontSize = fontSize + 'px';
+          }
 
-        // If still too large at minimum, ensure no scrollbar
-        if (remarksTextarea.scrollHeight > MAX_HEIGHT) {
-          remarksTextarea.style.fontSize = MIN_FONT_SIZE + 'px';
+          // If still too large at minimum, ensure no scrollbar
+          if (element.scrollHeight > MAX_HEIGHT) {
+            element.style.fontSize = MIN_FONT_SIZE + 'px';
+          }
+        } else {
+          // For text inputs, reduce font size if text overflows
+          while (element.scrollWidth > element.offsetWidth && fontSize > MIN_FONT_SIZE) {
+            fontSize -= 0.5;
+            element.style.fontSize = fontSize + 'px';
+          }
+
+          // Ensure minimum font size
+          if (fontSize < MIN_FONT_SIZE) {
+            element.style.fontSize = MIN_FONT_SIZE + 'px';
+          }
         }
       }
 
-      // Adjust font size on input
-      remarksTextarea.addEventListener('input', adjustFontSize);
-
-      // Also adjust on page load in case there's pre-filled content
-      window.addEventListener('load', adjustFontSize);
-    </script> -->
+      // Apply auto-fit to all inputs and textareas
+      document.addEventListener('DOMContentLoaded', function() {
+        const allInputs = document.querySelectorAll('input[type="text"], textarea');
+        
+        allInputs.forEach(element => {
+          // Adjust on input/change
+          element.addEventListener('input', function() {
+            adjustFontSize(this);
+          });
+          
+          // Adjust on page load in case there's pre-filled content
+          adjustFontSize(element);
+        });
+      });
+    </script>
   </body>
 </html>
